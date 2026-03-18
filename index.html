@@ -7,54 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="auth-shell" id="authShell">
-    <section class="login-card">
-      <div class="login-copy">
-        <p class="eyebrow">Secure Faculty Access</p>
-        <h1>Smart Lab Management Dashboard</h1>
-        <p class="hero-text">
-          Sign in to manage attendance verification, QR sessions, RFID kit tracking,
-          and real-time lab activity from one secure dashboard.
-        </p>
-        <div class="demo-creds">
-          <p><span class="detail-label">Supabase URL</span><span class="mono">Set in supabase-config.js</span></p>
-          <p><span class="detail-label">Anon Key</span><span class="mono">Set in supabase-config.js</span></p>
-          <p><span class="detail-label">Google Auth</span><span class="mono">Enable Google provider in Supabase</span></p>
-        </div>
-      </div>
-
-      <form class="login-form" id="loginForm">
-        <div class="form-heading">
-          <p class="panel-kicker">Login</p>
-          <h2>Access Dashboard</h2>
-        </div>
-
-        <label class="form-field">
-          <span>Email</span>
-          <input id="emailInput" type="email" placeholder="faculty@smartlab.edu" required>
-        </label>
-
-        <label class="form-field">
-          <span>Password</span>
-          <input id="passwordInput" type="password" placeholder="Enter password" required>
-        </label>
-
-        <label class="form-field">
-          <span>Role</span>
-          <select id="roleInput">
-            <option value="faculty">Faculty</option>
-            <option value="admin">Admin</option>
-          </select>
-        </label>
-
-        <p class="login-message" id="loginMessage">Configure Supabase, then sign in with email/password or Google.</p>
-        <button class="primary-button login-button" id="emailLoginBtn" type="submit">Sign In With Email</button>
-        <button class="ghost-button login-button" id="googleLoginBtn" type="button">Continue With Google</button>
-      </form>
-    </section>
-  </div>
-
-  <div class="app-shell hidden" id="appShell">
+  <div class="app-shell" id="appShell">
     <header class="hero">
       <div class="hero-copy">
         <div class="hero-topbar">
@@ -65,15 +18,14 @@
           <div class="user-chip-wrap">
             <div class="user-chip">
               <span class="detail-label">Signed In</span>
-              <strong id="activeUserName">Faculty User</strong>
-              <span class="mono" id="activeUserRole">faculty</span>
+              <strong id="activeUserName">Admin User</strong>
+              <span class="mono" id="activeUserRole">admin</span>
             </div>
             <div class="user-chip">
               <span class="detail-label">Supabase User ID</span>
-              <strong class="mono" id="activeUserId">Not Connected</strong>
-              <span class="mono" id="activeAuthProvider">provider</span>
+              <strong class="mono" id="activeUserId">local-admin-123</strong>
+              <span class="mono" id="activeAuthProvider">local</span>
             </div>
-            <button class="ghost-button" id="logoutBtn">Logout</button>
           </div>
         </div>
         <p class="hero-text">
@@ -256,8 +208,6 @@
     </main>
   </div>
 
-  <script src="supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
 </html>

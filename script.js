@@ -52,14 +52,7 @@ const state = {
   ],
 };
 
-const authShell = document.getElementById("authShell");
 const appShell = document.getElementById("appShell");
-const loginForm = document.getElementById("loginForm");
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
-const roleInput = document.getElementById("roleInput");
-const loginMessage = document.getElementById("loginMessage");
-const googleLoginBtn = document.getElementById("googleLoginBtn");
 
 const attendanceTableBody = document.getElementById("attendanceTableBody");
 const kitTableBody = document.getElementById("kitTableBody");
@@ -68,20 +61,7 @@ const alertsList = document.getElementById("alertsList");
 const qrBoard = document.getElementById("qrBoard");
 const kitOverview = document.getElementById("kitOverview");
 
-const supabaseConfig = window.SUPABASE_CONFIG || {};
-const hasSupabaseConfig = Boolean(
-  supabaseConfig.url &&
-  supabaseConfig.anonKey &&
-  supabaseConfig.url !== "YOUR_SUPABASE_URL" &&
-  supabaseConfig.anonKey !== "YOUR_SUPABASE_ANON_KEY"
-);
 
-const supabase = hasSupabaseConfig && window.supabase
-  ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey)
-  : null;
-
-loginForm.addEventListener("submit", handleLogin);
-googleLoginBtn.addEventListener("click", handleGoogleLogin);
 document.getElementById("generateQrBtn").addEventListener("click", generateQrSession);
 document.getElementById("toggleSessionBtn").addEventListener("click", toggleSession);
 document.getElementById("runVerificationBtn").addEventListener("click", runVerificationRound);
@@ -90,10 +70,8 @@ document.getElementById("clearAlertsBtn").addEventListener("click", clearResolve
 document.getElementById("exportAttendanceBtn").addEventListener("click", () => exportCsv("attendance-report.csv", attendanceCsvRows()));
 document.getElementById("exportKitsBtn").addEventListener("click", () => exportCsv("lab-kit-report.csv", kitCsvRows()));
 document.getElementById("exportPdfBtn").addEventListener("click", () => window.print());
-document.getElementById("logoutBtn").addEventListener("click", logout);
 
 renderAll();
-initializeAuth();
 window.setInterval(tickRealtime, 1000);
 window.setInterval(simulateBackgroundActivity, 8000);
 
@@ -262,25 +240,7 @@ function renderAll() {
 }
 
 function renderAuthShell() {
-  const isAuthenticated = Boolean(state.auth.user);
-  authShell.classList.toggle("hidden", isAuthenticated);
-  appShell.classList.toggle("hidden", !isAuthenticated);
-
-  if (!isAuthenticated) {
-    googleLoginBtn.disabled = !supabase;
-    return;
-  }
-
-  const profile = state.auth.profile || {};
-  const displayName = profile.full_name || state.auth.user.user_metadata?.full_name || state.auth.user.email || "Smart Lab User";
-  const role = profile.role || roleInput.value || "faculty";
-  const provider = profile.provider || state.auth.user.app_metadata?.provider || "email";
-
-  document.getElementById("activeUserName").textContent = displayName;
-  document.getElementById("activeUserRole").textContent = role;
-  document.getElementById("activeUserId").textContent = state.auth.user.id;
-  document.getElementById("activeAuthProvider").textContent = provider;
-  document.getElementById("exportPdfBtn").textContent = role === "admin" ? "Export Admin PDF View" : "Export PDF View";
+  // Login removed
 }
 
 function renderAttendance() {
@@ -499,9 +459,6 @@ function clearResolvedAlerts() {
 }
 
 function tickRealtime() {
-  if (!state.auth.user) {
-    return;
-  }
 
   if (state.session.active && state.session.startedAt) {
     const expired = Date.now() - state.session.startedAt >= state.session.durationMs;
@@ -518,9 +475,6 @@ function tickRealtime() {
 }
 
 function simulateBackgroundActivity() {
-  if (!state.auth.user) {
-    return;
-  }
 
   const rollIndex = Math.floor(Math.random() * state.attendance.length);
   const record = state.attendance[rollIndex];
