@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Lab Management Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-shell" id="authShell">
+    <section class="login-card">
+      <div class="login-copy">
+        <p class="eyebrow">Secure Faculty Access</p>
+        <h1>Smart Lab Management Dashboard</h1>
+        <p class="hero-text">
+          Sign in to manage attendance verification, QR sessions, RFID kit tracking,
+          and real-time lab activity from one secure dashboard.
+        </p>
+        <div class="demo-creds">
+          <p><span class="detail-label">Supabase URL</span><span class="mono">Set in supabase-config.js</span></p>
+          <p><span class="detail-label">Anon Key</span><span class="mono">Set in supabase-config.js</span></p>
+          <p><span class="detail-label">Google Auth</span><span class="mono">Enable Google provider in Supabase</span></p>
+        </div>
+      </div>
+
+      <form class="login-form" id="loginForm">
+        <div class="form-heading">
+          <p class="panel-kicker">Login</p>
+          <h2>Access Dashboard</h2>
+        </div>
+
+        <label class="form-field">
+          <span>Email</span>
+          <input id="emailInput" type="email" placeholder="faculty@smartlab.edu" required>
+        </label>
+
+        <label class="form-field">
+          <span>Password</span>
+          <input id="passwordInput" type="password" placeholder="Enter password" required>
+        </label>
+
+        <label class="form-field">
+          <span>Role</span>
+          <select id="roleInput">
+            <option value="faculty">Faculty</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+
+        <p class="login-message" id="loginMessage">Configure Supabase, then sign in with email/password or Google.</p>
+        <button class="primary-button login-button" id="emailLoginBtn" type="submit">Sign In With Email</button>
+        <button class="ghost-button login-button" id="googleLoginBtn" type="button">Continue With Google</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="app-shell hidden" id="appShell">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="hero-topbar">
+          <div>
+            <p class="eyebrow">Faculty Command Center</p>
+            <h1>Smart Lab Management Dashboard</h1>
+          </div>
+          <div class="user-chip-wrap">
+            <div class="user-chip">
+              <span class="detail-label">Signed In</span>
+              <strong id="activeUserName">Faculty User</strong>
+              <span class="mono" id="activeUserRole">faculty</span>
+            </div>
+            <div class="user-chip">
+              <span class="detail-label">Supabase User ID</span>
+              <strong class="mono" id="activeUserId">Not Connected</strong>
+              <span class="mono" id="activeAuthProvider">provider</span>
+            </div>
+            <button class="ghost-button" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <p class="hero-text">
+          Monitor attendance, control QR verification sessions, track RFID lab kits,
+          and respond to live alerts from one operational view.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <article class="metric-card accent-coral">
+          <span class="metric-label">Present</span>
+          <strong class="metric-value" id="presentCount">0</strong>
+          <span class="metric-note">Start and end verified</span>
+        </article>
+        <article class="metric-card accent-gold">
+          <span class="metric-label">Active Session</span>
+          <strong class="metric-value" id="sessionState">Closed</strong>
+          <span class="metric-note" id="sessionMeta">Waiting for faculty action</span>
+        </article>
+        <article class="metric-card accent-teal">
+          <span class="metric-label">Kits In Use</span>
+          <strong class="metric-value" id="kitsInUseCount">0</strong>
+          <span class="metric-note">RFID-linked assignments</span>
+        </article>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="panel attendance-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Attendance Panel</p>
+            <h2>Live Student Verification</h2>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost-button" id="runVerificationBtn">Trigger Verification Round</button>
+            <button class="ghost-button" id="exportAttendanceBtn">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="attendance-summary">
+          <div class="summary-pill">
+            <span class="summary-dot ok"></span>
+            <span id="verifiedCount">0 verified</span>
+          </div>
+          <div class="summary-pill">
+            <span class="summary-dot warn"></span>
+            <span id="partialCount">0 partial</span>
+          </div>
+          <div class="summary-pill">
+            <span class="summary-dot neutral"></span>
+            <span id="absentCount">0 absent</span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Status</th>
+                <th>Start Scan</th>
+                <th>End Scan</th>
+                <th>Presence</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel qr-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">QR Panel</p>
+            <h2>Session Control</h2>
+          </div>
+        </div>
+
+        <div class="qr-card">
+          <div class="qr-topbar">
+            <span class="live-pill" id="liveBadge">Session Offline</span>
+            <span class="mono" id="sessionTimer">00:00</span>
+          </div>
+          <div class="qr-board" id="qrBoard" aria-label="Generated session code visual"></div>
+          <div class="session-details">
+            <p><span class="detail-label">Session ID</span><span class="mono" id="sessionId">Not generated</span></p>
+            <p><span class="detail-label">Verification Code</span><span class="mono" id="verificationCode">---- ----</span></p>
+            <p><span class="detail-label">Expiry Window</span><span id="expiryWindow">5 minutes</span></p>
+          </div>
+          <div class="session-actions">
+            <button class="primary-button" id="generateQrBtn">Generate QR</button>
+            <button class="ghost-button" id="toggleSessionBtn">Start Session</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel kit-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Lab Kit Panel</p>
+            <h2>RFID Kit Tracking</h2>
+          </div>
+          <div class="panel-actions">
+            <button class="ghost-button" id="simulateRfidBtn">Simulate RFID Scan</button>
+            <button class="ghost-button" id="exportKitsBtn">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="kit-overview" id="kitOverview"></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Leader</th>
+                <th>Team</th>
+                <th>Status</th>
+                <th>Issue Time</th>
+                <th>Return Time</th>
+              </tr>
+            </thead>
+            <tbody id="kitTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel team-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Team Mapping</p>
+            <h2>Leader and Team View</h2>
+          </div>
+        </div>
+
+        <div class="team-grid" id="teamGrid"></div>
+      </section>
+
+      <section class="panel alerts-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Alerts Panel</p>
+            <h2>Real-Time Warnings</h2>
+          </div>
+          <button class="ghost-button" id="clearAlertsBtn">Clear Resolved</button>
+        </div>
+
+        <div class="alerts-list" id="alertsList"></div>
+      </section>
+
+      <section class="panel reports-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Reports & Logs</p>
+            <h2>Operational Summary</h2>
+          </div>
+          <button class="ghost-button" id="exportPdfBtn">Export PDF View</button>
+        </div>
+
+        <div class="reports-grid">
+          <article class="report-card">
+            <h3>Attendance Reports</h3>
+            <p id="attendanceReportText"></p>
+          </article>
+          <article class="report-card">
+            <h3>Kit Usage Logs</h3>
+            <p id="kitReportText"></p>
+          </article>
+          <article class="report-card">
+            <h3>Security Controls</h3>
+            <ul class="security-list">
+              <li>Session expiry set to 5 minutes</li>
+              <li>One device per account workflow ready</li>
+              <li>SHA-256 verification hook placeholder</li>
+              <li>No QR/session reuse in active cycle</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
