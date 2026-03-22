@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
+@theme {
+  /* Ultra-Clean Intelligence Dashboard Theme */
+  --color-brand-blue: #025bb6; /* The deep blue in the active session card */
+  --color-brand-blue-hover: #024a94;
+  --color-brand-dark: #1e3a8a;
+  
+  --color-bg-app: #f7f9fc;
+  --color-bg-sidebar: #ffffff;
+  --color-bg-card: #ffffff;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: var(--color-bg-app);
+  --foreground: #111827;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  
+  /* 🛡️ PWA Institutional Interaction Protocol */
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none; /* Prevents unwanted browser pull-to-refresh in PWA mode */
+  touch-action: manipulation;
+}
+
+/* 🏰 Secure Lock on Non-UI Interaction Elements */
+button, a, .interactive-node {
+  user-select: none;
+  cursor: pointer;
+}
+
+.timeline-dot {
+  @apply w-3 h-3 rounded-full border-2 border-white;
+}
+
+.timeline-line {
+  @apply w-[1px] bg-slate-200 absolute left-[5px] top-3 bottom-[-12px];
+}
+
+/* Institutional custom scrollbar */
+.custom-scrollbar-light::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 20px;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: #0052a5;
 }
