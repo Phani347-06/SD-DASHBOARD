@@ -38,9 +38,9 @@ export default function Dashboard() {
     return (
         <div className="space-y-12">
             {/* Header Section */}
-            <header className="px-2 md:px-0">
-                <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-2">Student Matrix Command</h2>
-                <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">Synchronized with Institutional Node: <span className="text-[#0052a5] font-black tracking-widest uppercase text-[10px]">AUTH_NOD_881</span></p>
+            <header className="px-4 md:px-0">
+                <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 uppercase leading-tight font-display">Matrix Command</h2>
+                <p className="text-slate-400 font-bold text-[9px] md:text-sm uppercase tracking-widest leading-none">Institutional Synchronization Node: <span className="text-[#0052a5]">AUTH_NOD_881</span></p>
             </header>
 
             {/* 1. Hero Stats Board - Matching Faculty Style */}
@@ -83,24 +83,26 @@ export default function Dashboard() {
                         </Link>
                     </div>
 
-                    <div className="flex items-end justify-between gap-4 md:gap-8 h-[200px] md:h-[240px] mb-8 md:pr-4 px-2">
-                        {SUBJECTS.map((subject, i) => (
-                            <div key={i} className="flex-1 flex flex-col justify-end items-center h-full group/bar relative">
-                                <motion.div 
-                                    initial={{ height: 0 }}
-                                    animate={{ height: `${subject.percentage}%` }}
-                                    transition={{ delay: 0.5 + (i * 0.1), duration: 1, ease: [0.33, 1, 0.68, 1] }}
-                                    className={`w-full ${subject.color} rounded-t-[12px] md:rounded-t-[20px] relative shadow-lg shadow-slate-200/50`}
-                                >
-                                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-black py-2 px-3 rounded-xl opacity-0 group-hover/bar:opacity-100 transition-all pointer-events-none scale-90 group-hover/bar:scale-100 shadow-2xl z-20 whitespace-nowrap">
-                                        {subject.percentage}% SYNCED
+                    <div className="overflow-x-auto pb-4 -mx-2 md:mx-0">
+                        <div className="flex items-end justify-between gap-4 md:gap-8 h-[200px] md:h-[240px] mb-4 md:pr-4 px-2 min-w-[500px] md:min-w-0">
+                            {SUBJECTS.map((subject, i) => (
+                                <div key={i} className="flex-1 flex flex-col justify-end items-center h-full group/bar relative">
+                                    <motion.div 
+                                        initial={{ height: 0 }}
+                                        animate={{ height: `${subject.percentage}%` }}
+                                        transition={{ delay: 0.5 + (i * 0.1), duration: 1, ease: [0.33, 1, 0.68, 1] }}
+                                        className={`w-full ${subject.color} rounded-t-[12px] md:rounded-t-[20px] relative shadow-lg shadow-slate-200/50`}
+                                    >
+                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-black py-2 px-3 rounded-xl opacity-0 group-hover/bar:opacity-100 transition-all pointer-events-none scale-90 group-hover/bar:scale-100 shadow-2xl z-20 whitespace-nowrap">
+                                            {subject.percentage}% SYNCED
+                                        </div>
+                                    </motion.div>
+                                    <div className="mt-4 text-center">
+                                        <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-900 line-clamp-1">{subject.name}</p>
                                     </div>
-                                </motion.div>
-                                <div className="mt-4 text-center">
-                                    <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-900 line-clamp-1">{subject.name}</p>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
 
                     {/* Gradient Overlay for the Chart Area */}

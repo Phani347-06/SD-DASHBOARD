@@ -390,16 +390,16 @@ export default function AttendancePage() {
 
     return (
         <div className="space-y-12 pb-20 animate-in fade-in duration-700">
-            <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 px-2 md:px-0">
+            <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 px-4 md:px-0">
                 <div>
-                    <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 font-display">Institutional Attendance Node</h2>
-                    <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">Managing cryptographically signed laboratory presence and academic credits.</p>
+                    <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 uppercase leading-tight font-display">Presence Node</h2>
+                    <p className="text-slate-400 font-bold text-[9px] md:text-sm uppercase tracking-widest leading-none">Institutional Handshake Protocol</p>
                 </div>
                 <div className="flex gap-4">
-                    <div className="flex items-center gap-3 bg-white px-8 py-4 rounded-full border border-slate-100 shadow-xl shadow-blue-500/5">
-                        <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isTestMode ? 'bg-amber-500' : 'bg-emerald-500'}`}></div>
-                        <span className="text-[11px] font-black uppercase tracking-widest text-[#0052a5]">
-                            {isTestMode ? 'Shadow Beacon: Test Mode' : 'Beacon Network: Active'}
+                    <div className="flex items-center gap-3 bg-white px-6 md:px-8 py-3.5 md:py-4 rounded-full border border-slate-100 shadow-xl shadow-blue-500/5">
+                        <div className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full animate-pulse ${isTestMode ? 'bg-amber-500' : 'bg-emerald-500'}`}></div>
+                        <span className="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-[#0052a5]">
+                            {isTestMode ? 'Shadow Beacon: Test' : 'Beacon: Active'}
                         </span>
                     </div>
                 </div>
@@ -417,27 +417,27 @@ export default function AttendancePage() {
                         <AnimatePresence mode="wait">
                             {status === 'LAB_SELECT' && (
                                 <motion.div key="lab" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }} className="flex flex-col items-center text-center">
-                                    <div className="w-24 md:w-28 h-24 md:h-28 bg-[#0052a5]/5 text-[#0052a5] rounded-[32px] md:rounded-[40px] flex items-center justify-center mb-8 md:mb-10 shadow-inner group-hover:rotate-3 transition-transform">
-                                        <FlaskConical size={48} md-size={56} strokeWidth={2.5} className="w-12 h-12 md:w-14 md:h-14" />
+                                    <div className="w-20 md:w-28 h-20 md:h-28 bg-[#0052a5]/5 text-[#0052a5] rounded-[32px] md:rounded-[40px] flex items-center justify-center mb-6 md:mb-10 shadow-inner group-hover:rotate-3 transition-transform">
+                                        <FlaskConical className="w-10 h-10 md:w-14 md:h-14" strokeWidth={2.5} />
                                     </div>
-                                    <h3 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter mb-4 leading-none font-display">Select Laboratory Node</h3>
-                                    <p className="text-slate-400 text-sm md:text-lg font-medium mb-8 md:mb-12 max-w-sm mx-auto leading-relaxed">Identify the laboratory cohort you are currently attending to manifest a beacon search.</p>
+                                    <h3 className="text-xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 md:mb-4 leading-none font-display uppercase">Select Lab Node</h3>
+                                    <p className="text-slate-400 text-[10px] md:text-lg font-bold uppercase tracking-widest mb-8 md:mb-12 max-w-sm mx-auto leading-relaxed">Identify current research hub.</p>
                                     
-                                    <div className="w-full max-w-sm grid grid-cols-1 gap-4 mb-10">
+                                    <div className="w-full max-w-sm grid grid-cols-1 gap-3 md:gap-4 mb-8 md:mb-10">
                                         {enrolledLabs.length === 0 ? (
-                                            <p className="p-8 bg-slate-50 rounded-3xl text-[11px] font-black text-slate-400 uppercase tracking-widest">No Enrolled Hubs Detected</p>
+                                            <p className="p-8 bg-slate-50 rounded-3xl text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest">No Enrolled Hubs Detected</p>
                                         ) : (
                                             enrolledLabs.map((lab) => (
                                                 <button 
                                                     key={lab.id}
                                                     onClick={() => { setSelectedLab(lab); setErrorMessage(null); }}
-                                                    className={`p-6 rounded-3xl border text-left transition-all flex items-center justify-between ${selectedLab?.id === lab.id ? 'bg-[#f0f7ff] border-blue-500 shadow-xl shadow-blue-500/5' : 'bg-slate-50 border-transparent hover:border-slate-200'}`}
+                                                    className={`p-5 md:p-6 rounded-[24px] md:rounded-3xl border text-left transition-all flex items-center justify-between ${selectedLab?.id === lab.id ? 'bg-[#f0f7ff] border-blue-500 shadow-xl shadow-blue-500/5' : 'bg-slate-50 border-slate-100 hover:border-slate-200'}`}
                                                 >
                                                     <div>
-                                                        <p className={`text-[13px] font-black tracking-tight ${selectedLab?.id === lab.id ? 'text-[#0052a5]' : 'text-slate-900'}`}>{lab.name}</p>
-                                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{lab.description || "Experimental Node"}</p>
+                                                        <p className={`text-[12px] md:text-[13px] font-black tracking-tight ${selectedLab?.id === lab.id ? 'text-[#0052a5]' : 'text-slate-900'}`}>{lab.name}</p>
+                                                        <p className="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">Experimental Node</p>
                                                     </div>
-                                                    {selectedLab?.id === lab.id && <CircleCheckBig size={20} className="text-[#0052a5]" />}
+                                                    {selectedLab?.id === lab.id && <CircleCheckBig size={18} className="text-[#0052a5]" />}
                                                 </button>
                                             ))
                                         )}
@@ -634,57 +634,61 @@ export default function AttendancePage() {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto relative z-10">
+                <div className="relative z-10">
                     {attendanceLogs.length === 0 ? (
-                        <div className="py-20 text-center bg-slate-50/50 rounded-[40px] border border-dashed border-slate-100">
-                           <Clock size={48} className="text-slate-200 mx-auto mb-6" />
-                           <p className="text-[12px] font-black uppercase tracking-[0.3em] text-slate-300">Awaiting presence node manifest...</p>
+                        <div className="py-20 md:py-32 text-center bg-slate-50/50 rounded-[40px] border border-dashed border-slate-100">
+                           <Clock size={40} md-size={48} className="text-slate-200 mx-auto mb-6" />
+                           <p className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] text-slate-300 px-4">Awaiting presence node manifest...</p>
                         </div>
                     ) : (
-                        <table className="w-full text-left">
-                           <thead>
-                              <tr className="border-b border-slate-50">
-                                 <th className="pb-8 text-[11px] uppercase font-black tracking-[0.25em] text-slate-300 pl-4">Class Node</th>
-                                 <th className="pb-8 text-[11px] uppercase font-black tracking-[0.25em] text-slate-300">Status Matrix</th>
-                                 <th className="pb-8 text-[11px] uppercase font-black tracking-[0.25em] text-slate-300">Manifested At</th>
-                                 <th className="pb-8 text-[11px] uppercase font-black tracking-[0.25em] text-slate-300 text-right pr-4">Node ID</th>
-                              </tr>
-                           </thead>
-                           <tbody className="divide-y divide-slate-50">
-                              {attendanceLogs.map((log, i) => (
-                                 <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-                                    <td className="py-8 pl-4">
-                                       <div className="flex items-center gap-6">
-                                          <div className="w-14 h-14 rounded-2xl bg-[#0052a5]/5 flex items-center justify-center text-[#0052a5] group-hover:bg-[#0052a5] group-hover:text-white transition-all transform group-hover:scale-105 shadow-sm">
-                                             <CircleUser size={28} />
-                                          </div>
-                                          <div>
-                                             <p className="text-[16px] font-black text-slate-900 tracking-tight mb-1 group-hover:text-[#0052a5] transition-colors">{log.class_sessions?.course_code || "Experimental Lab"}</p>
-                                             <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#0052a5]/40 group-hover:text-[#0052a5]/60 transition-colors">Vanguard Laboratory Cohort</p>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td className="py-8">
-                                       <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.1em] ${
-                                          log.final_status === 'VERIFIED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'
-                                       }`}>
-                                          {log.final_status === 'VERIFIED' ? <CircleCheckBig size={12} strokeWidth={3} /> : <AlertCircle size={12} strokeWidth={3} />}
-                                          {log.final_status}
-                                       </div>
-                                    </td>
-                                    <td className="py-8">
-                                       <div>
-                                          <p className="text-[13px] font-black text-slate-700 tracking-tight leading-none mb-1">{new Date(log.scanned_at).toLocaleDateString()}</p>
-                                          <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{new Date(log.scanned_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                       </div>
-                                    </td>
-                                    <td className="py-8 text-right pr-4">
-                                       <span className="text-[10px] font-black text-slate-200 uppercase tracking-tighter group-hover:text-[#0052a5]/20 transition-colors font-mono tracking-tight">{log.id.slice(0, 13)}...</span>
-                                    </td>
-                                 </tr>
-                              ))}
-                           </tbody>
-                        </table>
+                        <div className="overflow-x-auto -mx-6 md:mx-0 pr-4 md:pr-0 scrollbar-hide">
+                          <div className="min-w-[700px] px-6 md:px-0">
+                            <table className="w-full text-left">
+                               <thead>
+                                  <tr className="border-b border-slate-50">
+                                     <th className="pb-8 text-[10px] md:text-[11px] uppercase font-black tracking-[0.2em] md:tracking-[0.25em] text-slate-300 pl-4">Class Node</th>
+                                     <th className="pb-8 text-[10px] md:text-[11px] uppercase font-black tracking-[0.2em] md:tracking-[0.25em] text-slate-300">Status Matrix</th>
+                                     <th className="pb-8 text-[10px] md:text-[11px] uppercase font-black tracking-[0.2em] md:tracking-[0.25em] text-slate-300">Manifested At</th>
+                                     <th className="pb-8 text-[10px] md:text-[11px] uppercase font-black tracking-[0.2em] md:tracking-[0.25em] text-slate-300 text-right pr-4">Node ID</th>
+                                  </tr>
+                               </thead>
+                               <tbody className="divide-y divide-slate-50">
+                                  {attendanceLogs.map((log, i) => (
+                                     <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
+                                        <td className="py-6 md:py-8 pl-4">
+                                           <div className="flex items-center gap-4 md:gap-6">
+                                              <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-[#0052a5]/5 flex items-center justify-center text-[#0052a5] group-hover:bg-[#0052a5] group-hover:text-white transition-all transform group-hover:scale-105 shadow-sm">
+                                                 <CircleUser size={20} />
+                                              </div>
+                                              <div>
+                                                 <p className="text-[14px] md:text-[16px] font-black text-slate-900 tracking-tight mb-0.5 md:mb-1 group-hover:text-[#0052a5] transition-colors line-clamp-1">{log.class_sessions?.course_code || "Experimental Lab"}</p>
+                                                 <p className="text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest text-[#0052a5]/40 group-hover:text-[#0052a5]/60 transition-colors tracking-widest">Vanguard Laboratory Cohort</p>
+                                              </div>
+                                           </div>
+                                        </td>
+                                        <td className="py-6 md:py-8">
+                                           <div className={`inline-flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-[0.1em] ${
+                                              log.final_status === 'VERIFIED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'
+                                           }`}>
+                                              {log.final_status === 'VERIFIED' ? <CircleCheckBig size={10} strokeWidth={3} /> : <AlertCircle size={10} strokeWidth={3} />}
+                                              {log.final_status}
+                                           </div>
+                                        </td>
+                                        <td className="py-6 md:py-8">
+                                           <div>
+                                              <p className="text-[12px] md:text-[13px] font-black text-slate-700 tracking-tight leading-none mb-1">{new Date(log.scanned_at).toLocaleDateString()}</p>
+                                              <p className="text-[9px] md:text-[10px] font-bold text-slate-300 uppercase tracking-widest">{new Date(log.scanned_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                           </div>
+                                        </td>
+                                        <td className="py-6 md:py-8 text-right pr-4">
+                                           <span className="text-[9px] md:text-[10px] font-black text-slate-200 uppercase tracking-tighter group-hover:text-[#0052a5]/20 transition-colors font-mono tracking-tight">{log.id.slice(0, 13)}...</span>
+                                        </td>
+                                     </tr>
+                                  ))}
+                               </tbody>
+                            </table>
+                          </div>
+                        </div>
                     )}
                 </div>
             </section>
@@ -702,30 +706,29 @@ export default function AttendancePage() {
                             initial={{ scale: 0.9, y: 40 }}
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.9, y: 40 }}
-                            className="bg-white text-slate-900 w-full max-w-lg rounded-[60px] shadow-2xl p-16 text-center overflow-hidden relative"
+                            className="bg-white text-slate-900 w-full max-w-lg rounded-[40px] md:rounded-[60px] shadow-2xl p-8 md:p-16 text-center overflow-hidden relative"
                         >
                             <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none opacity-50" />
                             
                             <div className="relative z-10 flex flex-col items-center">
-                                <div className="w-28 h-28 bg-[#0052a5] text-white rounded-[40px] flex items-center justify-center mb-10 shadow-2xl shadow-blue-500/40 relative">
-                                    <ShieldCheck size={56} />
+                                <div className="w-20 md:w-28 h-20 md:h-28 bg-[#0052a5] text-white rounded-[32px] md:rounded-[40px] flex items-center justify-center mb-8 md:mb-10 shadow-2xl shadow-blue-500/40 relative">
+                                    <ShieldCheck className="w-10 h-10 md:w-14 md:h-14" strokeWidth={3} />
                                     <motion.div 
                                         animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0, 0.3] }}
                                         transition={{ duration: 2, repeat: Infinity }}
-                                        className="absolute inset-0 border-4 border-blue-400 rounded-[40px]"
+                                        className="absolute inset-0 border-4 border-blue-400 rounded-[32px] md:rounded-[40px]"
                                     ></motion.div>
                                 </div>
-                                <h3 className="text-3xl font-black tracking-tighter mb-4 uppercase font-display">Integrity Pulse</h3>
-                                <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mb-12 animate-pulse">{scanState}</p>
+                                <h3 className="text-xl md:text-3xl font-black tracking-tighter mb-4 uppercase font-display leading-none">Integrity Pulse</h3>
+                                <p className="text-slate-400 text-[9px] md:text-sm font-black uppercase tracking-widest mb-8 md:mb-12 animate-pulse leading-none">{scanState}</p>
                                 
-                                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-10">
+                                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-8 md:mb-10">
                                     <motion.div 
                                         animate={{ width: `${scanProgress}%` }}
                                         className="h-full bg-[#0052a5] shadow-[0_0_15px_rgba(0,82,165,0.4)]"
                                     ></motion.div>
                                 </div>
-
-                                <div className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-300"> Institutional Core Protocol V1.2.4 </div>
+                                <div className="text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-300"> Institutional Core Protocol V1.2.4 </div>
                             </div>
                         </motion.div>
                     </motion.div>

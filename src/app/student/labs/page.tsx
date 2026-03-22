@@ -73,27 +73,27 @@ export default function StudentLabsPage() {
     <div className="space-y-10 animate-in fade-in duration-700">
       
       {/* Dynamic Header Matrix */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 px-2 md:px-0">
         <div>
-           <div className="flex items-center gap-4 mb-3">
-              <div className="bg-[#0052a5] p-3 rounded-2xl shadow-xl shadow-blue-900/10">
-                 <FlaskConical size={24} className="text-white" />
+           <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
+              <div className="bg-[#0052a5] p-2.5 md:p-3 rounded-xl md:rounded-2xl shadow-xl shadow-blue-900/10">
+                 <FlaskConical size={20} md-size={24} className="text-white" />
               </div>
-              <h1 className="text-4xl font-black text-slate-900 tracking-tighter leading-none font-display">Enrolled Laboratory Nodes</h1>
+              <h1 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter leading-none font-display">Labs Matrix</h1>
            </div>
-           <p className="text-[13px] font-bold text-slate-500 uppercase tracking-widest pl-16">Institutional Roster Alignment: Active Cohorts</p>
+           <p className="text-[10px] md:text-[13px] font-bold text-slate-500 uppercase tracking-widest pl-12 md:pl-16">Active Cohort Alignment</p>
         </div>
 
-        <div className="relative group min-w-[320px]">
-           <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-300 group-focus-within:text-[#0052a5] transition-colors">
-              <Search size={18} />
+        <div className="relative group w-full md:min-w-[320px]">
+           <div className="absolute inset-y-0 left-5 md:left-6 flex items-center pointer-events-none text-slate-300 group-focus-within:text-[#0052a5] transition-colors">
+              <Search size={16} md-size={18} />
            </div>
            <input 
               type="text" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Query Lab Matrix..." 
-              className="w-full bg-white border border-slate-100 rounded-[24px] py-4 pl-16 pr-8 text-[12px] font-black uppercase tracking-widest focus:ring-4 focus:ring-blue-100 focus:border-[#0052a5] transition-all placeholder:text-slate-300"
+              className="w-full bg-white border border-slate-100 rounded-[20px] md:rounded-[24px] py-3 md:py-4 pl-14 md:pl-16 pr-6 md:pr-8 text-[11px] md:text-[12px] font-black uppercase tracking-widest focus:ring-4 focus:ring-blue-100 focus:border-[#0052a5] transition-all placeholder:text-slate-300"
            />
         </div>
       </div>
@@ -125,19 +125,19 @@ export default function StudentLabsPage() {
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 transition-all group relative overflow-hidden flex flex-col h-full"
+                  className="bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 transition-all group relative overflow-hidden flex flex-col h-full"
                 >
                    {/* Background Visual Element */}
                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-slate-50 rounded-full blur-3xl opacity-50 group-hover:bg-blue-50 transition-colors" />
 
                    <div className="relative z-10 flex-1">
-                      <div className="w-16 h-16 bg-slate-50 rounded-[24px] flex items-center justify-center text-slate-300 group-hover:bg-[#0052a5] group-hover:text-white group-hover:rotate-6 transition-all mb-8 shadow-sm">
-                         <Box size={32} strokeWidth={1.5} />
+                      <div className="w-12 h-12 md:w-16 md:h-16 bg-slate-50 rounded-xl md:rounded-[24px] flex items-center justify-center text-slate-300 group-hover:bg-[#0052a5] group-hover:text-white group-hover:rotate-6 transition-all mb-6 md:mb-8 shadow-sm">
+                         <Box size={24} md-size={32} strokeWidth={1.5} />
                       </div>
                       
-                      <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-2 group-hover:text-[#0052a5] transition-colors">{lab.name}</h3>
-                      <p className="text-[10px] font-black text-[#0052a5]/60 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                         <Activity size={12} /> Unit Lead: {lab.faculty_name}
+                      <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter mb-2 group-hover:text-[#0052a5] transition-colors line-clamp-1">{lab.name}</h3>
+                      <p className="text-[9px] md:text-[10px] font-black text-[#0052a5]/60 uppercase tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2">
+                         <Activity size={10} md-size={12} /> Lead: {lab.faculty_name}
                       </p>
                       
                       <p className="text-slate-500 text-[13px] font-medium leading-relaxed mb-10 line-clamp-3">
