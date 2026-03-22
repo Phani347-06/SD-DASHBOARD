@@ -124,7 +124,7 @@ export default function LoginPage() {
              
              // Check if Confirmation is required (no session returned)
              if (!authResponse.data.session) {
-                setSuccessMsg("Account Manifested: Please verify your institutional email node to continue.");
+                setSuccessMsg("Account Manifested: Please verify your institutional email node. Check your inbox or click 'Resend' below.");
                 setLoading(false);
                 return;
              }
@@ -254,6 +254,32 @@ export default function LoginPage() {
        }
     } finally {
        setLoading(false);
+    }
+  };
+
+  const handleResendActivation = async () => {
+    if (!email) {
+      setErrorMsg("Institutional Error: Identify the email node to resend activation pulse.");
+      return;
+    }
+    setLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: window.location.origin + '/login',
+        }
+      });
+      if (error) throw error;
+      setSuccessMsg("Activation pulse re-sent. Check your institutional inbox (and Spam folder).");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Recovery Protocol Interrupted: Failed to resend activation.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -670,7 +696,18 @@ export default function LoginPage() {
                      )}
                   </button>
 
-                  <div className="text-center mt-6">
+                  <div className="text-center mt-6 space-y-3">
+                     {mode === 'signup' && (
+                        <button 
+                           type="button" 
+                           onClick={handleResendActivation}
+                           disabled={loading}
+                           className="text-[11px] font-bold text-[#0052a5] hover:underline flex items-center justify-center gap-1 mx-auto"
+                        >
+                           <Mail size={14} /> Didn't receive the email? Resend Activation Pulse
+                        </button>
+                     )}
+                     
                      {mode === 'signin' ? (
                        <p className="text-[12px] font-medium text-slate-500">
                          First time accessing the Lab? <button type="button" onClick={() => { setMode('signup'); setErrorMsg(""); setSuccessMsg(""); }} className="font-bold text-[#0052a5] hover:underline">Create an account</button>
