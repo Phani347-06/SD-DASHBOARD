@@ -50,8 +50,7 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
       if (session?.user) {
          try {
             // 1. Generate Hardware Fingerprint (Physical DNA)
-            const fingerprintData = generateInstitutionalFingerprint();
-            const currentHash = await hashFingerprint(fingerprintData);
+            const currentHash = await hashFingerprint(generateInstitutionalFingerprint());
             
             // 2. Resolve Academic Identity and Hardware Lock
             const { data: student, error: sError } = await supabase
@@ -84,8 +83,8 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
             const temp_id = generateVanguardUUID();
             const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
             
-            // Invalidate legacy nodes
-            await supabase.from('sessions').update({ is_active: false }).eq('student_id', session.user.id).eq('is_active', true);
+            // 🛡️ Institutional Cleanup: Purge legacy nodes to save storage (memory wastage fix)
+            await supabase.from('sessions').delete().eq('student_id', session.user.id);
             
             // Register new session node
             const { error } = await supabase.from('sessions').insert({

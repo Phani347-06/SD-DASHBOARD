@@ -49,6 +49,8 @@ export function generateInstitutionalFingerprint(): any {
     hardwareConcurrency: navigator.hardwareConcurrency || 0,
     deviceMemory: (navigator as any).deviceMemory || 0,
     touchPoints: navigator.maxTouchPoints || 0,
+    vendor: navigator.vendor || 'unknown',
+    pixelRatio: window.devicePixelRatio || 1,
     canvas: getCanvasFingerprint()
   };
 }

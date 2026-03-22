@@ -209,8 +209,13 @@ export default function LoginPage() {
           if (role === 'student') {
              const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
              
-             // 5.1 Invalidate legacy active sessions for this identity
-             await supabase.from('sessions').update({ is_active: false }).eq('student_id', profile.id).eq('is_active', true);
+             // 5.1 Institutional Cleanup: Purge legacy sessions to prevent database bloat
+             // We delete instead of update({is_active:false}) to save storage space
+             await supabase.from('sessions').delete().eq('student_id', profile.id);
+             
+             // 5.1.a Periodic Global Cleanup: Purge all stale sessions older than 24h
+             const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+             await supabase.from('sessions').delete().lt('created_at', oneDayAgo);
 
              // 5.2 Manifest new temporary session node
              const { error: sessionError } = await supabase.from('sessions').insert({
@@ -402,7 +407,7 @@ export default function LoginPage() {
        } else {
           onboardingData.roll_no = user.email.split('@')[0].toUpperCase();
        }
-
+        
        const { error } = await supabase
           .from(table)
           .upsert(onboardingData, { 
@@ -427,8 +432,34 @@ export default function LoginPage() {
              throw error;
           }
        }
+
+        // 🛡️ Institutional Security: Finalize Hardware Anchor during Onboarding
+        // This ensures the first device used to finish setup (mobile or laptop) is locked to the account
+        if (role === 'student') {
+           const fingerprint = generateInstitutionalFingerprint();
+           const fingerprintHash = await hashFingerprint(fingerprint);
+           const temp_session_id = generateVanguardUUID();
+           const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+           // Anchor the hardware
+           await supabase.from('students').update({ registered_device_fingerprint: fingerprintHash }).eq('id', user.id);
+           
+           // Clear sessions and Manifest first node
+           await supabase.from('sessions').delete().eq('student_id', user.id);
+           await supabase.from('sessions').insert({
+              temp_session_id,
+              student_id: user.id,
+              fingerprint_hash: fingerprintHash,
+              expires_at,
+              is_active: true
+           });
+           
+           // Sync Client Memory-Only Node
+           setSession(temp_session_id, fingerprintHash);
+        }
+        
+        setSuccessMsg("Institutional Verification Complete: Hardware Anchor Locked.");
        
-       setSuccessMsg("Institutional Verification Complete: Credentials Activated.");
        handleLoginSuccess(role === 'student' ? '/student' : '/attendance');
     } catch (err: any) {
        setErrorMsg(err.message || "Onboarding Protocol Failed.");
