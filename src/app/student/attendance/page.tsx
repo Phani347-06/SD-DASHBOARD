@@ -112,13 +112,13 @@ export default function AttendancePage() {
         initHub();
     }, [router, searchParams]);
 
-    // 2. Beacon Manifestation - Searching for Active Laboratory Sessions
+    // 2. Hardware Beacon Handshake - Physical Presence Verification
     const startBeaconSearch = async () => {
         if (!selectedLab) return;
         setStatus('SEARCHING_BEACON');
         setErrorMessage(null);
 
-        // Simulation delay for immersion
+        // Simulation delay for immersive UI
         await new Promise(r => setTimeout(r, 2000));
 
         if (isTestMode) {
@@ -130,21 +130,49 @@ export default function AttendancePage() {
             return;
         }
 
-        const { data: sessions, error } = await supabase
-            .from('class_sessions')
-            .select('id, course_code')
-            .eq('lab_id', selectedLab.id)
-            .eq('status', 'ACTIVE')
-            .maybeSingle();
+        try {
+            // Institutional BLE Protocol: Scanning for the Laboratory Beacon Node
+            // NOTE: Replace the service UUID below with your specific ESP32 Beacon ID
+            const BEACON_SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
+            
+            console.log("Hardware Handshake: Manifesting Bluetooth Pulse...");
+            
+            // Web Bluetooth requirement: User must physically interact to trigger the scan
+            // Vercel deployment provides the mandatory HTTPS context for this
+            const device = await navigator.bluetooth.requestDevice({
+                filters: [{ services: [BEACON_SERVICE_UUID] }],
+                optionalServices: [BEACON_SERVICE_UUID]
+            });
 
-        if (error || !sessions) {
-            setErrorMessage(`No Institutional Beacon detected for ${selectedLab.name}. Verify the session is active with your Lead.`);
+            console.log(`Hardware Anchor Locked: ${device.name}`);
+
+            const { data: sessions, error } = await supabase
+                .from('class_sessions')
+                .select('id, course_code')
+                .eq('lab_id', selectedLab.id)
+                .eq('status', 'ACTIVE')
+                .maybeSingle();
+
+            if (error || !sessions) {
+                setErrorMessage(`Hardware detected, but no Institutional Beacon manifest for ${selectedLab.name}. Verify session with Lead.`);
+                setStatus('LAB_SELECT');
+                return;
+            }
+
+            setActiveSession(sessions);
+            setStatus('BEACON_LOCKED');
+
+        } catch (err: any) {
+            console.error("Hardware Handshake Failure:", err);
+            if (err.name === 'NotFoundError') {
+                setErrorMessage("Physical Handshake Denied: Laboratory Beacon not detected in range.");
+            } else if (err.name === 'SecurityError') {
+                setErrorMessage("Protocol Error: Bluetooth access blocked. Check browser permissions.");
+            } else {
+                setErrorMessage("Handshake Interrupted: Hardware node unreachable.");
+            }
             setStatus('LAB_SELECT');
-            return;
         }
-
-        setActiveSession(sessions);
-        setStatus('BEACON_LOCKED');
     };
 
     // 3. Scanner Protocol
