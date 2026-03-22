@@ -139,7 +139,8 @@ export default function AttendancePage() {
             
             // Web Bluetooth requirement: User must physically interact to trigger the scan
             // Vercel deployment provides the mandatory HTTPS context for this
-            const device = await navigator.bluetooth.requestDevice({
+            // @ts-ignore
+            const device = await (navigator as any).bluetooth.requestDevice({
                 filters: [{ services: [BEACON_SERVICE_UUID] }],
                 optionalServices: [BEACON_SERVICE_UUID]
             });
