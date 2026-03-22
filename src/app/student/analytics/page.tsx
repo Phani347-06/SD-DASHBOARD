@@ -163,7 +163,7 @@ export default function AnalyticsPage() {
                             ].map((badge, i) => (
                                 <div key={i} className="flex items-center gap-4 md:gap-6 group/milestone cursor-default hover:scale-105 transition-transform origin-left">
                                     <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${badge.bg} ${badge.color} flex items-center justify-center`}>
-                                        <badge.icon size={18} md-size={20} />
+                                        <badge.icon className="w-5 h-5 md:w-6 md:h-6" />
                                     </div>
                                     <div>
                                         <p className="text-[11px] md:text-[12px] font-black text-slate-900 leading-none mb-1">{badge.label}</p>

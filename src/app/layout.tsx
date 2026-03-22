@@ -7,17 +7,17 @@ export const viewport: Viewport = {
   themeColor: '#0052a5',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  minimumScale: 1,
+  viewportFit: 'cover',
 };
 
 export const metadata: Metadata = {
   title: "Lab Intelligence",
   description: "Secure Lab Attendance Protocol",
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Lab Intelligence',
   },
   formatDetection: {
