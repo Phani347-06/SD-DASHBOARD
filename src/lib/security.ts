@@ -35,6 +35,27 @@ export function getCanvasFingerprint(): string {
 }
 
 /**
+ * Generates the GPU/Renderer fingerprint node.
+ */
+export function getWebGLFingerprint(): string {
+  if (typeof document === 'undefined') return 'server_node';
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext;
+    if (!gl) return 'unsupported_webgl_node';
+    
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    if (!debugInfo) return 'no_webgl_extension';
+    
+    const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    return `${vendor}:::${renderer}`;
+  } catch (e) {
+    return 'webgl_interrupted';
+  }
+}
+
+/**
  * Generates the complete institutional hardware signature.
  */
 export function generateInstitutionalFingerprint(): any {
@@ -51,7 +72,8 @@ export function generateInstitutionalFingerprint(): any {
     touchPoints: navigator.maxTouchPoints || 0,
     vendor: navigator.vendor || 'unknown',
     pixelRatio: window.devicePixelRatio || 1,
-    canvas: getCanvasFingerprint()
+    canvas: getCanvasFingerprint(),
+    webgl: getWebGLFingerprint()
   };
 }
 
