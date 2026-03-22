@@ -138,7 +138,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex">
+    <div className="min-h-screen bg-[#f8fafc] flex w-full max-w-[100vw] overflow-x-hidden relative">
       <AnimatePresence>
         {sessionError && (
           <motion.div 
@@ -234,7 +234,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       </aside>
 
       {/* 2. Main Content Board */}
-      <main className="flex-1 xl:ml-80 min-h-screen pt-16 xl:pt-0">
+      <main className="flex-1 min-w-0 w-full xl:ml-80 min-h-screen pt-16 xl:pt-0 flex flex-col overflow-x-hidden">
         {/* Top Navbar (Visible ONLY on Desktop Devices) */}
         <header className="hidden h-28 bg-white/60 backdrop-blur-xl border-b border-slate-100 xl:flex items-center justify-between px-12 sticky top-0 z-30">
           <div className="max-w-md w-full relative">
@@ -276,7 +276,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </header>
 
         {/* Page Children with Staggered Entry */}
-        <div className="p-6 md:p-12 max-w-7xl mx-auto">
+        <div className="p-4 md:p-12 max-w-7xl mx-auto w-full min-w-0 overflow-x-hidden">
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 20 }}
