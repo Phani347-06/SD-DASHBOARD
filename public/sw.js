@@ -1,24 +1,26 @@
 /**
  * 🛰️ Institutional Service Worker: Offline Presence Node
- * Manifests minimal PWA support for standalone home-screen installation.
+ * Minimal PWA support - NO CACHING. Network-first always.
  */
-const CACHE_NAME = 'lab-intel-cache-v2';
+const CACHE_VERSION = 'lab-intel-v3-nocache';
 
 self.addEventListener('install', (event) => {
+  // Immediately activate - don't wait for old tabs
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
+  // Purge ALL old caches on activation
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        cacheNames.map((name) => caches.delete(name))
       );
     }).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  // Pass-through strategy for Institutional Matrix Synchronization
+  // Always fetch from network - never serve cached content
   event.respondWith(fetch(event.request));
 });

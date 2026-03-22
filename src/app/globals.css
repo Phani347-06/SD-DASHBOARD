@@ -7,6 +7,7 @@
 html {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -34,7 +35,10 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   width: 100%;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
   
   /* 🛡️ PWA Institutional Interaction Protocol */
   -webkit-tap-highlight-color: transparent;
@@ -71,4 +75,32 @@ button, a, .interactive-node {
 
 .custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
   background: #0052a5;
+  border-radius: 20px;
+}
+
+/* Institutional custom scrollbar (dark variant) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0052a5;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
