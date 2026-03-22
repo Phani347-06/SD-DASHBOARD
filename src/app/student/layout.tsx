@@ -58,6 +58,16 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   const [loading, setLoading] = useState(true);
   const [sessionError, setSessionError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   useEffect(() => {
     let channel: any;
@@ -154,19 +164,29 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       {/* 0. Mobile Command Header (Visible ONLY on Mobile) */}
       <div className="lg:hidden fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-6 flex items-center justify-between z-[50]">
           <div className="flex items-center gap-3">
-             <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 cursor-pointer">
+             <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 cursor-pointer active:scale-95 transition-all">
                 {mobileMenuOpen ? "✕" : "☰"}
              </div>
-             <div className="w-8 h-8 bg-[#0052a5] rounded-lg flex items-center justify-center text-white">
+             <div className="w-8 h-8 bg-[#0052a5] rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-900/20">
                 <Activity size={18} strokeWidth={3} />
              </div>
              <h1 className="text-sm font-black text-slate-900 tracking-tighter">PRISM</h1>
           </div>
-          <Link href="/student/profile">
-             <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-[#0052a5]">
-                <CircleUser size={24} />
-             </div>
-          </Link>
+          <div className="flex items-center gap-3">
+             {installPrompt && (
+                <button 
+                   onClick={() => installPrompt.prompt()}
+                   className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl animate-pulse"
+                >
+                   <Monitor size={18} />
+                </button>
+             )}
+             <Link href="/student/profile">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#0052a5] border border-slate-100">
+                   <CircleUser size={24} />
+                </div>
+             </Link>
+          </div>
       </div>
 
       {/* 1. Sidebar - Institutional Navigation Node */}
