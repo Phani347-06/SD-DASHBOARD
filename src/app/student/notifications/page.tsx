@@ -83,19 +83,19 @@ export default function NotificationsPage() {
 
     return (
         <div className="space-y-12 pb-20">
-            <header className="flex items-center justify-between">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2 md:px-0">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Notification Matrix</h2>
-                    <p className="text-slate-400 font-medium text-sm capitalize">Real-time synchronized institutional alerts and activity logs.</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-2 uppercaseLeading-none">Alert Matrix</h2>
+                    <p className="text-slate-400 font-bold text-[10px] md:text-sm uppercase tracking-widest leading-none">Real-time synchronized institutional activity logs.</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex items-center gap-4">
                     <button 
                         onClick={() => { if(confirm("Clear all active notification nodes?")) setNotifications([]); }}
-                        className="bg-white border border-slate-100 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-3 shadow-sm hover:text-slate-900 transition-all active:scale-95"
+                        className="flex-1 md:flex-none bg-white border border-slate-100 px-6 py-4 rounded-xl md:rounded-full text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center justify-center gap-3 shadow-sm hover:text-slate-900 transition-all active:scale-95"
                     >
-                        <CircleCheckBig size={16} /> Clear All
+                        <CircleCheckBig size={16} /> Clear Hub
                     </button>
-                    <div className="w-12 h-12 rounded-full bg-[#0052a5] text-white flex items-center justify-center shadow-lg shadow-blue-500/20 group">
+                    <div className="w-12 h-12 rounded-2xl md:rounded-full bg-[#0052a5] text-white flex-shrink-0 flex items-center justify-center shadow-lg shadow-blue-500/20 group">
                         <Bell size={20} className="group-hover:rotate-12 transition-transform" />
                     </div>
                 </div>
@@ -141,17 +141,17 @@ export default function NotificationsPage() {
                                     notif.color === 'red' ? 'bg-rose-500' : 'bg-slate-200'
                                 }`}></div>
 
-                                <div className="flex gap-8">
-                                    <div className={`w-16 h-16 rounded-[24px] flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-110 ${
+                                <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+                                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[20px] md:rounded-[24px] flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-110 ${
                                         notif.color === 'blue' ? 'bg-blue-50 text-blue-500' : 
                                         notif.color === 'green' ? 'bg-emerald-50 text-emerald-600' : 
                                         notif.color === 'amber' ? 'bg-amber-50 text-amber-500' : 
                                         notif.color === 'red' ? 'bg-rose-50 text-rose-500' : 'bg-slate-50 text-slate-400'
                                     }`}>
-                                        {notif.type === 'ATTENDANCE' && <Wifi size={32} />}
-                                        {notif.type === 'SECURITY' && <ShieldCheck size={32} />}
-                                        {notif.type === 'EQUIPMENT' && <Monitor size={32} />}
-                                        {notif.type === 'GENERAL' && <Info size={32} />}
+                                        {notif.type === 'ATTENDANCE' && <Wifi size={24} md-size={32} />}
+                                        {notif.type === 'SECURITY' && <ShieldCheck size={24} md-size={32} />}
+                                        {notif.type === 'EQUIPMENT' && <Monitor size={24} md-size={32} />}
+                                        {notif.type === 'GENERAL' && <Info size={24} md-size={32} />}
                                     </div>
 
                                     <div className="flex-1">
@@ -251,17 +251,17 @@ export default function NotificationsPage() {
                             exit={{ scale: 0.9, y: 20 }}
                             className="bg-white text-slate-900 w-full max-w-2xl rounded-[50px] shadow-2xl p-12 text-center overflow-hidden relative"
                         >
-                            <div className="flex flex-col items-center">
-                                <div className="w-24 h-24 bg-rose-500 text-white rounded-[32px] flex items-center justify-center mb-8 shadow-2xl shadow-rose-500/40 relative">
-                                    <TriangleAlert size={48} />
+                             <div className="flex flex-col items-center">
+                                <div className="w-20 md:w-24 h-20 md:h-24 bg-rose-500 text-white rounded-2xl md:rounded-[32px] flex items-center justify-center mb-6 md:mb-8 shadow-2xl shadow-rose-500/40 relative">
+                                    <TriangleAlert size={40} md-size={48} />
                                     <motion.div 
                                         animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }}
                                         transition={{ duration: 2, repeat: Infinity }}
-                                        className="absolute inset-0 border-4 border-rose-400 rounded-[32px]"
+                                        className="absolute inset-0 border-4 border-rose-400 rounded-2xl md:rounded-[32px]"
                                     ></motion.div>
                                 </div>
-                                <h3 className="text-2xl font-black tracking-tighter mb-4 uppercase text-rose-600">Forensic Security Audit</h3>
-                                <p className="text-slate-400 text-sm font-medium mb-10 max-w-xs mx-auto">{scanState}</p>
+                                <h3 className="text-xl md:text-2xl font-black tracking-tighter mb-4 uppercase text-rose-600">Forensic Audit</h3>
+                                <p className="text-slate-400 text-[11px] md:text-sm font-black uppercase tracking-widest mb-8 md:mb-10 max-w-xs mx-auto leading-none">{scanState}</p>
                                 
                                 <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-12">
                                     <motion.div 

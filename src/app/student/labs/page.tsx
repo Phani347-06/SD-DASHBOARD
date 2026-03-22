@@ -77,7 +77,7 @@ export default function StudentLabsPage() {
         <div>
            <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
               <div className="bg-[#0052a5] p-2.5 md:p-3 rounded-xl md:rounded-2xl shadow-xl shadow-blue-900/10">
-                 <FlaskConical size={20} md-size={24} className="text-white" />
+                 <FlaskConical size={24} className="text-white" />
               </div>
               <h1 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter leading-none font-display">Labs Matrix</h1>
            </div>
@@ -86,7 +86,7 @@ export default function StudentLabsPage() {
 
         <div className="relative group w-full md:min-w-[320px]">
            <div className="absolute inset-y-0 left-5 md:left-6 flex items-center pointer-events-none text-slate-300 group-focus-within:text-[#0052a5] transition-colors">
-              <Search size={16} md-size={18} />
+              <Search size={18} />
            </div>
            <input 
               type="text" 
@@ -137,7 +137,7 @@ export default function StudentLabsPage() {
                       
                       <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter mb-2 group-hover:text-[#0052a5] transition-colors line-clamp-1">{lab.name}</h3>
                       <p className="text-[9px] md:text-[10px] font-black text-[#0052a5]/60 uppercase tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2">
-                         <Activity size={10} md-size={12} /> Lead: {lab.faculty_name}
+                         <Activity size={12} /> Lead: {lab.faculty_name}
                       </p>
                       
                       <p className="text-slate-500 text-[13px] font-medium leading-relaxed mb-10 line-clamp-3">

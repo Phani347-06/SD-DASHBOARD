@@ -408,7 +408,7 @@ export default function AttendancePage() {
             {/* Attendance Stepper Matrix */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-8">
-                    <div className="bg-white rounded-[32px] md:rounded-[50px] border border-slate-100 p-6 md:p-12 shadow-sm relative overflow-hidden group min-h-[450px] md:min-h-[550px] flex flex-col justify-center">
+                    <div className="bg-white rounded-[32px] md:rounded-[50px] border border-slate-100 p-6 md:p-12 shadow-sm relative overflow-hidden group min-h-[400px] md:min-h-[550px] flex flex-col justify-center">
                         
                         <div className="absolute top-6 md:top-10 right-6 md:right-10 text-[40px] md:text-[60px] font-black text-slate-50 opacity-40 select-none tracking-tighter pointer-events-none group-hover:text-blue-50 transition-colors uppercase">
                             {status.split('_')[0]}
@@ -495,7 +495,7 @@ export default function AttendancePage() {
                                         <div className="absolute inset-0 pointer-events-none border-2 border-emerald-500/30 opacity-20" />
                                         {errorMessage && (
                                             <div className="absolute inset-0 bg-rose-500/90 flex flex-col items-center justify-center p-6 md:p-8 text-center text-white z-50">
-                                                <TriangleAlert size={32} md-size={40} className="mb-4" />
+                                                <TriangleAlert size={40} className="mb-4" />
                                                 <p className="text-xs md:text-sm font-bold uppercase tracking-widest mb-4">Institutional Rejection</p>
                                                 <p className="text-[10px] md:text-xs font-bold text-white/80 mb-8 leading-relaxed">{errorMessage}</p>
                                                 <button onClick={() => setErrorMessage(null)} className="bg-white text-rose-600 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95 shadow-xl shadow-black/10">Retry protocol</button>
@@ -625,7 +625,7 @@ export default function AttendancePage() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 md:mb-16 relative z-10">
                     <div className="flex items-center gap-4 md:gap-6">
                         <div className="w-12 md:w-14 h-12 md:h-14 bg-slate-900 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-xl shadow-black/10">
-                            <Database size={20} md-size={24} />
+                            <Database size={24} />
                         </div>
                         <div>
                             <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter font-display leading-none mb-2">Institutional Ledger</h3>
@@ -641,8 +641,8 @@ export default function AttendancePage() {
                            <p className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] text-slate-300 px-4">Awaiting presence node manifest...</p>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto -mx-6 md:mx-0 pr-4 md:pr-0 scrollbar-hide">
-                          <div className="min-w-[700px] px-6 md:px-0">
+                        <div className="overflow-x-auto -mx-6 md:mx-0 pr-4 md:pr-0 custom-scrollbar">
+                          <div className="min-w-[600px] md:min-w-0 px-6 md:px-0">
                             <table className="w-full text-left">
                                <thead>
                                   <tr className="border-b border-slate-50">

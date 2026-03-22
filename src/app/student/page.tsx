@@ -83,10 +83,11 @@ export default function Dashboard() {
                         </Link>
                     </div>
 
-                    <div className="overflow-x-auto pb-4 -mx-2 md:mx-0">
-                        <div className="flex items-end justify-between gap-4 md:gap-8 h-[200px] md:h-[240px] mb-4 md:pr-4 px-2 min-w-[500px] md:min-w-0">
-                            {SUBJECTS.map((subject, i) => (
-                                <div key={i} className="flex-1 flex flex-col justify-end items-center h-full group/bar relative">
+                    <div className="overflow-x-auto pb-4 -mx-2 md:mx-0 custom-scrollbar">
+                        <div className="flex items-end justify-between gap-2 md:gap-8 h-[200px] md:h-[240px] mb-4 md:pr-4 px-2">
+                             {SUBJECTS.map((subject, i) => (
+                                <div key={i} className="flex-1 min-w-[60px] md:min-w-0 flex flex-col justify-end items-center h-full group/bar relative">
+
                                     <motion.div 
                                         initial={{ height: 0 }}
                                         animate={{ height: `${subject.percentage}%` }}

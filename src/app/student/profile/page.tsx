@@ -253,7 +253,7 @@ export default function ProfilePage() {
                                 <h4 className="text-base md:text-lg font-black text-slate-900 tracking-tighter uppercase leading-none">Security Node</h4>
                             </div>
                             <div className="flex items-center gap-2 text-emerald-500">
-                                <ShieldCheck size={14} md-size={16} className="animate-pulse" />
+                                <ShieldCheck size={16} className="animate-pulse" />
                                 <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest">Active</span>
                             </div>
                         </div>
@@ -305,12 +305,12 @@ export default function ProfilePage() {
 
                             <div className="grid grid-cols-2 gap-4 md:gap-6">
                                 <Link href="/student/analytics" className="bg-white/10 p-4 md:p-5 rounded-2xl md:rounded-[28px] backdrop-blur-md hover:bg-white/20 transition-all group/card border border-white/5">
-                                    <Activity className="text-blue-300 mb-2 md:mb-3 group-hover/card:scale-110 transition-transform" size={18} md-size={20} />
+                                    <Activity className="text-blue-300 mb-2 md:mb-3 group-hover/card:scale-110 transition-transform" size={20} />
                                     <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-200 mb-1 leading-none">Attendance</p>
                                     <p className="text-xl md:text-2xl font-black tracking-tighter">82%</p>
                                 </Link>
                                 <Link href="/student/equipment" className="bg-white/10 p-4 md:p-5 rounded-2xl md:rounded-[28px] backdrop-blur-md hover:bg-white/20 transition-all group/card border border-white/5">
-                                    <Package className="text-blue-300 mb-2 md:mb-3 group-hover/card:scale-110 transition-transform" size={18} md-size={20} />
+                                    <Package className="text-blue-300 mb-2 md:mb-3 group-hover/card:scale-110 transition-transform" size={20} />
                                     <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-200 mb-1 leading-none">Assets</p>
                                     <p className="text-xl md:text-2xl font-black tracking-tighter">02</p>
                                 </Link>
@@ -343,7 +343,7 @@ export default function ProfilePage() {
                                       Hardware Bound
                                     </p>
                                 </div>
-                                <ShieldCheck size={18} md-size={20} className="text-emerald-500" />
+                                <ShieldCheck size={20} className="text-emerald-500" />
                             </div>
 
                             <div className="p-5 md:p-6 bg-slate-50/50 rounded-2xl md:rounded-[30px] border border-slate-100 group hover:border-blue-100 transition-all cursor-default relative overflow-hidden shadow-inner">

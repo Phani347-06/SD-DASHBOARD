@@ -46,15 +46,15 @@ export default function EquipmentPage() {
 
     return (
         <div className="space-y-12 pb-20">
-            <header className="flex items-center justify-between">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2 md:px-0">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Institutional Equipment Node</h2>
-                    <p className="text-slate-400 font-medium text-sm capitalize">Managing hardware checkout and asset synchronization.</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-2 uppercase">Asset Node</h2>
+                    <p className="text-slate-400 font-bold text-[10px] md:text-sm uppercase tracking-widest leading-none">Vanguard Inventory Protocol</p>
                 </div>
                 <div className="flex gap-4">
                     <button 
                         onClick={() => setIsScanning(true)}
-                        className="bg-white border border-slate-100 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest text-[#0052a5] flex items-center gap-3 shadow-sm hover:shadow-md transition-all active:scale-95"
+                        className="w-full md:w-auto bg-white border border-slate-100 px-6 py-4 rounded-xl md:rounded-full text-[10px] font-black uppercase tracking-widest text-[#0052a5] flex items-center justify-center gap-3 shadow-sm hover:shadow-md transition-all active:scale-95"
                     >
                         <QrCode size={16} /> Quick Checkout
                     </button>
@@ -122,31 +122,31 @@ export default function EquipmentPage() {
 
                     <div 
                         onClick={() => setIsScanning(true)}
-                        className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center p-10 group cursor-pointer hover:border-[#0052a5] hover:bg-white transition-all min-h-[400px]"
+                        className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-[32px] md:rounded-[40px] flex flex-col items-center justify-center p-8 md:p-10 group cursor-pointer hover:border-[#0052a5] hover:bg-white transition-all min-h-[300px] md:min-h-[400px]"
                     >
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-slate-300 mb-4 group-hover:scale-110 group-hover:text-[#0052a5] transition-all shadow-sm">
+                        <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center text-slate-300 mb-4 group-hover:scale-110 group-hover:text-[#0052a5] transition-all shadow-sm">
                             <ArrowLeftRight size={24} />
                         </div>
-                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors">Checkout New Asset</p>
+                        <p className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors">Checkout New Asset</p>
                     </div>
                 </div>
             </section>
 
             {/* 2. Full Asset History Table */}
             <section className="bg-white rounded-[40px] border border-slate-100 shadow-sm p-10">
-                <div className="flex items-center justify-between mb-12">
+                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-12">
                     <div className="flex items-center gap-4">
                         <HistoryIcon size={24} className="text-[#0052a5]" />
-                        <h3 className="text-xl font-black text-slate-900 tracking-tighter">Inventory Cycle History</h3>
+                        <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter uppercase">Inventory Ledger</h3>
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-col md:flex-row md:items-center gap-6">
                         <button 
                             onClick={handleExport}
-                            className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#0052a5] transition-colors"
+                            className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[#0052a5] transition-colors text-left"
                         >
-                            Export Ledger
+                            Export Node Data
                         </button>
-                        <div className="h-4 w-px bg-slate-100"></div>
+                        <div className="hidden md:block h-4 w-px bg-slate-100"></div>
                         <div className="relative">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                             <input 
@@ -154,13 +154,14 @@ export default function EquipmentPage() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Audit logs..." 
-                                className="bg-slate-50 border-none rounded-full py-3 pl-12 pr-6 text-[11px] font-black tracking-widest focus:ring-2 focus:ring-blue-100 transition-all" 
+                                className="w-full bg-slate-50 border-none rounded-xl md:rounded-full py-3.5 pl-12 pr-6 text-[11px] font-black tracking-widest focus:ring-2 focus:ring-blue-100 transition-all" 
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                 <div className="overflow-x-auto custom-scrollbar -mx-4 md:mx-0 pr-4 md:pr-0">
+                    <div className="min-w-[600px] md:min-w-0">
                     <table className="w-full">
                         <thead>
                             <tr className="border-b border-slate-50">
@@ -209,6 +210,7 @@ export default function EquipmentPage() {
                         </tbody>
                     </table>
                 </div>
+              </div>
 
                 <div className="mt-12 p-8 bg-slate-50 rounded-[40px] flex items-center justify-between group">
                     <div className="flex items-center gap-6">
