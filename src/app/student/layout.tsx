@@ -57,6 +57,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [sessionError, setSessionError] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     let channel: any;
@@ -150,19 +151,44 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         )}
       </AnimatePresence>
 
-      {/* 1. Sidebar - Dynamic Link Tracking */}
-      <aside className="w-80 bg-white border-r border-slate-100 p-8 flex flex-col h-screen fixed top-0 left-0 z-40">
-        <div className="flex items-center gap-4 mb-16 pl-4">
-          <div className="w-10 h-10 bg-[#0052a5] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/10">
-            <Activity size={24} strokeWidth={3} />
+      {/* 0. Mobile Command Header (Visible ONLY on Mobile) */}
+      <div className="lg:hidden fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-6 flex items-center justify-between z-[50]">
+          <div className="flex items-center gap-3">
+             <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 cursor-pointer">
+                {mobileMenuOpen ? "✕" : "☰"}
+             </div>
+             <div className="w-8 h-8 bg-[#0052a5] rounded-lg flex items-center justify-center text-white">
+                <Activity size={18} strokeWidth={3} />
+             </div>
+             <h1 className="text-sm font-black text-slate-900 tracking-tighter">PRISM</h1>
           </div>
-          <div>
-            <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-1">PRISM</h1>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Institutional Matrix</p>
+          <Link href="/student/profile">
+             <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-[#0052a5]">
+                <CircleUser size={24} />
+             </div>
+          </Link>
+      </div>
+
+      {/* 1. Sidebar - Institutional Navigation Node */}
+      <aside 
+        className={`fixed top-0 left-0 h-screen w-80 bg-white border-r border-slate-100 p-8 flex flex-col z-[60] transition-transform duration-500 ease-in-out lg:translate-x-0 ${
+          mobileMenuOpen ? "translate-x-0 shadow-2xl shadow-blue-900/40" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between lg:justify-start gap-4 mb-16 pl-4">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-[#0052a5] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/10">
+              <Activity size={24} strokeWidth={3} />
+            </div>
+            <div>
+              <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-1">PRISM</h1>
+              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Institutional Matrix</p>
+            </div>
           </div>
+          <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">✕</button>
         </div>
 
-        <nav className="flex-1">
+        <nav className="flex-1" onClick={() => setMobileMenuOpen(false)}>
           <SidebarLink href="/student" icon={LayoutDashboard} label="Dashboard" active={pathname === "/student"} />
           <SidebarLink href="/student/labs" icon={FlaskConical} label="Labs" active={pathname === "/student/labs"} />
           <SidebarLink href="/student/attendance" icon={CalendarCheck} label="Attendance" active={pathname === "/student/attendance"} />
@@ -188,9 +214,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       </aside>
 
       {/* 2. Main Content Board */}
-      <main className="flex-1 ml-80 min-h-screen">
-        {/* Top Navbar */}
-        <header className="h-28 bg-white/60 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-12 sticky top-0 z-30">
+      <main className="flex-1 lg:ml-80 min-h-screen pt-16 lg:pt-0">
+        {/* Top Navbar (Visible ONLY on Desktop Devices) */}
+        <header className="hidden h-28 bg-white/60 backdrop-blur-xl border-b border-slate-100 lg:flex items-center justify-between px-12 sticky top-0 z-30">
           <div className="max-w-md w-full relative">
             <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-300">
               <Search size={18} />
@@ -230,7 +256,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </header>
 
         {/* Page Children with Staggered Entry */}
-        <div className="p-12 max-w-7xl mx-auto">
+        <div className="p-6 md:p-12 max-w-7xl mx-auto">
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 20 }}
@@ -241,6 +267,19 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           </motion.div>
         </div>
       </main>
+
+      {/* Overlay for Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
