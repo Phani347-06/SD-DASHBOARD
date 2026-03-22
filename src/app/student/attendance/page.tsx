@@ -390,10 +390,10 @@ export default function AttendancePage() {
 
     return (
         <div className="space-y-12 pb-20 animate-in fade-in duration-700">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 px-2 md:px-0">
                 <div>
-                    <h2 className="text-4xl font-black text-slate-900 tracking-tighter mb-2 font-display">Institutional Attendance Node</h2>
-                    <p className="text-slate-400 font-medium text-sm">Managing cryptographically signed laboratory presence and academic credits.</p>
+                    <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 font-display">Institutional Attendance Node</h2>
+                    <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">Managing cryptographically signed laboratory presence and academic credits.</p>
                 </div>
                 <div className="flex gap-4">
                     <div className="flex items-center gap-3 bg-white px-8 py-4 rounded-full border border-slate-100 shadow-xl shadow-blue-500/5">
@@ -408,20 +408,20 @@ export default function AttendancePage() {
             {/* Attendance Stepper Matrix */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-8">
-                    <div className="bg-white rounded-[50px] border border-slate-100 p-12 shadow-sm relative overflow-hidden group min-h-[550px] flex flex-col justify-center">
+                    <div className="bg-white rounded-[32px] md:rounded-[50px] border border-slate-100 p-6 md:p-12 shadow-sm relative overflow-hidden group min-h-[450px] md:min-h-[550px] flex flex-col justify-center">
                         
-                        <div className="absolute top-10 right-10 text-[60px] font-black text-slate-50 opacity-40 select-none tracking-tighter pointer-events-none group-hover:text-blue-50 transition-colors uppercase">
+                        <div className="absolute top-6 md:top-10 right-6 md:right-10 text-[40px] md:text-[60px] font-black text-slate-50 opacity-40 select-none tracking-tighter pointer-events-none group-hover:text-blue-50 transition-colors uppercase">
                             {status.split('_')[0]}
                         </div>
 
                         <AnimatePresence mode="wait">
                             {status === 'LAB_SELECT' && (
                                 <motion.div key="lab" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }} className="flex flex-col items-center text-center">
-                                    <div className="w-28 h-28 bg-[#0052a5]/5 text-[#0052a5] rounded-[40px] flex items-center justify-center mb-10 shadow-inner group-hover:rotate-3 transition-transform">
-                                        <FlaskConical size={56} strokeWidth={2.5} />
+                                    <div className="w-24 md:w-28 h-24 md:h-28 bg-[#0052a5]/5 text-[#0052a5] rounded-[32px] md:rounded-[40px] flex items-center justify-center mb-8 md:mb-10 shadow-inner group-hover:rotate-3 transition-transform">
+                                        <FlaskConical size={48} md-size={56} strokeWidth={2.5} className="w-12 h-12 md:w-14 md:h-14" />
                                     </div>
-                                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter mb-4 leading-none font-display">Select Laboratory Node</h3>
-                                    <p className="text-slate-400 text-lg font-medium mb-12 max-w-sm mx-auto">Identify the laboratory cohort you are currently attending to manifest a beacon search.</p>
+                                    <h3 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter mb-4 leading-none font-display">Select Laboratory Node</h3>
+                                    <p className="text-slate-400 text-sm md:text-lg font-medium mb-8 md:mb-12 max-w-sm mx-auto leading-relaxed">Identify the laboratory cohort you are currently attending to manifest a beacon search.</p>
                                     
                                     <div className="w-full max-w-sm grid grid-cols-1 gap-4 mb-10">
                                         {enrolledLabs.length === 0 ? (
@@ -453,7 +453,7 @@ export default function AttendancePage() {
                                     {selectedLab && (
                                         <button 
                                             onClick={startBeaconSearch}
-                                            className="bg-[#0052a5] text-white px-12 py-5 rounded-[28px] text-[12px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-4"
+                                            className="bg-[#0052a5] text-white w-full md:w-auto px-12 py-5 rounded-[24px] md:rounded-[28px] text-[11px] md:text-[12px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-4"
                                         >
                                             {isTestMode ? "Manifest Shadow Beacon" : "Connect to Beacon"} <ArrowRight size={20} />
                                         </button>
@@ -479,10 +479,10 @@ export default function AttendancePage() {
                                     <div className="w-32 h-32 bg-emerald-50 text-emerald-600 rounded-[40px] flex items-center justify-center mb-10 shadow-xl shadow-emerald-500/5 transition-transform">
                                         <ShieldCheck size={56} strokeWidth={2.5} />
                                     </div>
-                                    <h3 className="text-3xl font-black text-slate-900 tracking-tighter mb-4">Laboratory Beacon Initialized</h3>
-                                    <p className="text-slate-400 text-lg font-medium mb-12 max-w-sm">Verification Handshake ready for {activeSession?.course_code}. Proceed to QR scan.</p>
-                                    <div className="flex gap-4">
-                                        <button onClick={() => setStatus('SCANNING_QR')} className="bg-[#0052a5] text-white px-12 py-5 rounded-3xl text-[12px] font-black uppercase tracking-widest shadow-2xl shadow-blue-500/20 active:scale-95 transition-all">Launch Scanner</button>
+                                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-4">Laboratory Beacon Initialized</h3>
+                                    <p className="text-slate-400 text-sm md:text-lg font-medium mb-10 md:mb-12 max-w-sm">Verification Handshake ready for {activeSession?.course_code}. Proceed to QR scan.</p>
+                                    <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                                        <button onClick={() => setStatus('SCANNING_QR')} className="bg-[#0052a5] text-white px-12 py-5 rounded-2xl md:rounded-3xl text-[11px] md:text-[12px] font-black uppercase tracking-widest shadow-2xl shadow-blue-500/20 active:scale-95 transition-all w-full md:w-auto">Launch Scanner</button>
                                         <button onClick={() => setStatus('LAB_SELECT')} className="px-10 py-5 text-[10px] font-black uppercase tracking-widest text-slate-300 hover:text-rose-500 transition-colors">Abort</button>
                                     </div>
                                 </motion.div>
@@ -490,19 +490,19 @@ export default function AttendancePage() {
 
                             {status === 'SCANNING_QR' && (
                                 <motion.div key="scanning" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center text-center w-full">
-                                    <div className="w-full max-w-sm aspect-square bg-slate-900 rounded-[40px] overflow-hidden border-[12px] border-white shadow-2xl relative">
+                                    <div className="w-full max-w-sm aspect-square bg-slate-900 rounded-[32px] md:rounded-[40px] overflow-hidden border-[8px] md:border-[12px] border-white shadow-2xl relative">
                                         <div id="attendance-reader" className="w-full h-full"></div>
                                         <div className="absolute inset-0 pointer-events-none border-2 border-emerald-500/30 opacity-20" />
                                         {errorMessage && (
-                                            <div className="absolute inset-0 bg-rose-500/90 flex flex-col items-center justify-center p-8 text-center text-white z-50">
-                                                <TriangleAlert size={40} className="mb-4" />
-                                                <p className="text-sm font-bold uppercase tracking-widest mb-4">Institutional Rejection</p>
-                                                <p className="text-xs font-bold text-white/80 mb-8">{errorMessage}</p>
+                                            <div className="absolute inset-0 bg-rose-500/90 flex flex-col items-center justify-center p-6 md:p-8 text-center text-white z-50">
+                                                <TriangleAlert size={32} md-size={40} className="mb-4" />
+                                                <p className="text-xs md:text-sm font-bold uppercase tracking-widest mb-4">Institutional Rejection</p>
+                                                <p className="text-[10px] md:text-xs font-bold text-white/80 mb-8 leading-relaxed">{errorMessage}</p>
                                                 <button onClick={() => setErrorMessage(null)} className="bg-white text-rose-600 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95 shadow-xl shadow-black/10">Retry protocol</button>
                                             </div>
                                         )}
                                         {isTestMode && (
-                                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[60]">
+                                            <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-[60]">
                                                 <button 
                                                     onClick={runShadowSimulation}
                                                     className="bg-emerald-500 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-black/40 hover:scale-105 active:scale-95 transition-all"
@@ -619,17 +619,17 @@ export default function AttendancePage() {
             </div>
 
             {/* Historic Presence Ledger */}
-            <section className="bg-white rounded-[50px] border border-slate-100 shadow-sm p-12 overflow-hidden relative">
+            <section className="bg-white rounded-[32px] md:rounded-[50px] border border-slate-100 shadow-sm p-6 md:p-12 overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50" />
                 
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16 relative z-10">
-                    <div className="flex items-center gap-6">
-                        <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-black/10">
-                            <Database size={24} />
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 md:mb-16 relative z-10">
+                    <div className="flex items-center gap-4 md:gap-6">
+                        <div className="w-12 md:w-14 h-12 md:h-14 bg-slate-900 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-xl shadow-black/10">
+                            <Database size={20} md-size={24} />
                         </div>
                         <div>
-                            <h3 className="text-3xl font-black text-slate-900 tracking-tighter font-display leading-none mb-2">Institutional Ledger</h3>
-                            <p className="text-slate-400 text-[11px] font-black uppercase tracking-[0.2em]">Immutable Record of Research Node Presence</p>
+                            <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter font-display leading-none mb-2">Institutional Ledger</h3>
+                            <p className="text-slate-400 text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em]">Immutable Record of Research Node Presence</p>
                         </div>
                     </div>
                 </div>

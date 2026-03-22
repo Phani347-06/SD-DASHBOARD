@@ -38,10 +38,10 @@ export default function AnalyticsPage() {
 
     return (
         <div className="space-y-12 pb-20">
-            <header className="flex items-center justify-between">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2 md:px-0">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Institutional Analytics Matrix</h2>
-                    <p className="text-slate-400 font-medium text-sm">Synchronized Academic Performance Pulse & Trend Analytics.</p>
+                    <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2 font-display">Institutional Analytics Matrix</h2>
+                    <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">Synchronized Academic Performance Pulse & Trend Analytics.</p>
                 </div>
                 <div className="flex gap-4">
                     <div className="px-6 py-3 bg-white border border-slate-100 rounded-full flex items-center gap-3 shadow-sm group hover:shadow-lg transition-all cursor-default">
@@ -59,7 +59,7 @@ export default function AnalyticsPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.1 }}
-                        className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-2xl hover:shadow-[#0052a5]/5 transition-all"
+                        className="bg-white p-6 md:p-8 rounded-[32px] md:rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-2xl hover:shadow-[#0052a5]/5 transition-all h-full"
                     >
                         <div className="flex items-center justify-between mb-8 relative z-10">
                             <div className="p-4 rounded-2xl bg-slate-50 text-slate-400 group-hover:scale-110 group-hover:bg-[#0052a5] group-hover:text-white transition-all duration-500">
@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
                         </div>
                         <div className="relative z-10">
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{stat.label}</p>
-                            <h3 className="text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                            <h3 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
                         </div>
                     </motion.div>
                 ))}
@@ -86,8 +86,8 @@ export default function AnalyticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 
                 {/* Horizontal Performance Grid (8 Cols) */}
-                <div className="lg:col-span-8 bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm relative group">
-                    <div className="flex items-center justify-between mb-12">
+                <div className="lg:col-span-8 bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-slate-100 shadow-sm relative group">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                         <div>
                             <h3 className="text-xl font-black text-slate-900 tracking-tighter mb-1">Laboratory Performance Breakdown</h3>
                             <p className="text-[10px] uppercase font-black tracking-widest text-[#0052a5]">Institutional Ledger Synchronization</p>
@@ -98,19 +98,19 @@ export default function AnalyticsPage() {
                     <div className="space-y-10">
                         {SUBJECT_PERFORMANCE.map((sub, i) => (
                             <div key={i} className="group">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-4">
+                                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                                    <div className="flex items-center gap-3 md:gap-4">
                                         <div className="w-2 h-2 rounded-full bg-[#0052a5] animate-pulse"></div>
-                                        <h4 className="text-[14px] font-black text-slate-900 tracking-tight group-hover:text-[#0052a5] transition-colors">{sub.name}</h4>
+                                        <h4 className="text-[13px] md:text-[14px] font-black text-slate-900 tracking-tight group-hover:text-[#0052a5] transition-colors">{sub.name}</h4>
                                     </div>
-                                    <div className="flex items-center gap-8">
-                                        <div className="text-right">
+                                    <div className="flex items-center justify-between md:justify-end gap-6 md:gap-8 bg-slate-50/50 md:bg-transparent p-3 md:p-0 rounded-2xl">
+                                        <div className="text-left md:text-right">
                                             <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Handshakes</p>
-                                            <p className="text-[12px] font-black text-slate-900">{sub.sessions}</p>
+                                            <p className="text-[11px] md:text-[12px] font-black text-slate-900">{sub.sessions}</p>
                                         </div>
                                         <div className="text-right">
                                             <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Integrity</p>
-                                            <p className={`text-[12px] font-black ${sub.attendance >= sub.target ? "text-emerald-500" : "text-rose-500"}`}>{sub.attendance}%</p>
+                                            <p className={`text-[11px] md:text-[12px] font-black ${sub.attendance >= sub.target ? "text-emerald-500" : "text-rose-500"}`}>{sub.attendance}%</p>
                                         </div>
                                     </div>
                                 </div>
@@ -131,13 +131,13 @@ export default function AnalyticsPage() {
                 </div>
 
                 {/* Vertical Trend Hub (4 Cols) */}
-                <div className="lg:col-span-4 space-y-10">
-                    <div className="bg-[#0052a5] p-10 rounded-[40px] text-white shadow-2xl shadow-blue-500/20 relative overflow-hidden group">
+                <div className="lg:col-span-4 space-y-8 md:space-y-10">
+                    <div className="bg-[#0052a5] p-6 md:p-10 rounded-[32px] md:rounded-[40px] text-white shadow-2xl shadow-blue-500/20 relative overflow-hidden group">
                         <div className="relative z-10 space-y-8">
                             <h4 className="text-xl font-black tracking-tighter leading-none">Weekly Trend Cycle</h4>
-                            <div className="flex items-end gap-3 h-32">
+                            <div className="flex items-end gap-2 md:gap-3 h-24 md:h-32">
                                 {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
-                                    <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ delay: 1.2 + (i * 0.1) }} className="flex-1 bg-white/20 rounded-t-lg hover:bg-white/40 transition-colors"></motion.div>
+                                    <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ delay: 1.2 + (i * 0.1) }} className="flex-1 bg-white/20 rounded-t-md md:rounded-t-lg hover:bg-white/40 transition-colors"></motion.div>
                                 ))}
                             </div>
                             <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-blue-200">
@@ -146,28 +146,28 @@ export default function AnalyticsPage() {
                             </div>
                             <button 
                                 onClick={handleDownloadLog}
-                                className="w-full py-4 bg-white/10 hover:bg-white text-[10px] font-black uppercase tracking-[0.2em] transition-all border border-white/10 hover:text-[#0052a5] flex items-center justify-center gap-3"
+                                className="w-full py-4 bg-white/10 hover:bg-white text-[10px] font-black uppercase tracking-[0.2em] transition-all border border-white/10 hover:text-[#0052a5] flex items-center justify-center gap-3 rounded-[20px]"
                             >
                                 <Download size={14} /> Download Audit Log
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm group">
+                    <div className="bg-white p-6 md:p-10 rounded-[32px] md:rounded-[40px] border border-slate-100 shadow-sm group">
                         <h4 className="text-lg font-black text-slate-900 tracking-tighter mb-8 capitalize">Institutional Milestones</h4>
-                        <div className="space-y-8">
+                        <div className="space-y-6 md:space-y-8">
                             {[
                                 { label: "Perfect Week", date: "Mar 15", icon: CalendarCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
                                 { label: "Elite Attendance", date: "Feb 28", icon: Clock, color: "text-[#0052a5]", bg: "bg-blue-50" },
                                 { label: "Protocol Compliance", date: "Jan 12", icon: Scale, color: "text-amber-500", bg: "bg-amber-50" }
                             ].map((badge, i) => (
-                                <div key={i} className="flex items-center gap-6 group/milestone cursor-default hover:scale-105 transition-transform origin-left">
-                                    <div className={`w-12 h-12 rounded-2xl ${badge.bg} ${badge.color} flex items-center justify-center`}>
-                                        <badge.icon size={20} />
+                                <div key={i} className="flex items-center gap-4 md:gap-6 group/milestone cursor-default hover:scale-105 transition-transform origin-left">
+                                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${badge.bg} ${badge.color} flex items-center justify-center`}>
+                                        <badge.icon size={18} md-size={20} />
                                     </div>
                                     <div>
-                                        <p className="text-[12px] font-black text-slate-900 leading-none mb-1">{badge.label}</p>
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{badge.date} Sync</p>
+                                        <p className="text-[11px] md:text-[12px] font-black text-slate-900 leading-none mb-1">{badge.label}</p>
+                                        <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">{badge.date} Sync</p>
                                     </div>
                                 </div>
                             ))}

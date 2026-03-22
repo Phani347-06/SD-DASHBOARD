@@ -38,9 +38,9 @@ export default function Dashboard() {
     return (
         <div className="space-y-12">
             {/* Header Section */}
-            <header>
-                <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Student Matrix Command</h2>
-                <p className="text-slate-400 font-medium text-sm">Synchronized with Institutional Node: <span className="text-[#0052a5] font-black tracking-widest uppercase text-[10px]">AUTH_NOD_881</span></p>
+            <header className="px-2 md:px-0">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-2">Student Matrix Command</h2>
+                <p className="text-slate-400 font-medium text-xs md:text-sm leading-relaxed">Synchronized with Institutional Node: <span className="text-[#0052a5] font-black tracking-widest uppercase text-[10px]">AUTH_NOD_881</span></p>
             </header>
 
             {/* 1. Hero Stats Board - Matching Faculty Style */}
@@ -51,7 +51,7 @@ export default function Dashboard() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-[#0052a5]/5 transition-all group h-full cursor-pointer"
+                            className="bg-white p-6 md:p-8 rounded-[32px] md:rounded-[40px] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-[#0052a5]/5 transition-all group h-full cursor-pointer"
                         >
                             <div className="flex items-center justify-between mb-6">
                                 <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} transition-transform group-hover:scale-110`}>
@@ -60,7 +60,7 @@ export default function Dashboard() {
                                 <ArrowUpRight size={18} className="text-slate-200 group-hover:text-[#0052a5]" />
                             </div>
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{stat.label}</p>
-                            <h3 className="text-4xl font-black text-slate-900 tracking-tighter mb-2">{stat.value}</h3>
+                            <h3 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-2">{stat.value}</h3>
                             <p className={`text-[11px] font-bold ${stat.color} uppercase tracking-widest`}>{stat.sub}</p>
                         </motion.div>
                     </Link>
@@ -71,8 +71,8 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 
                 {/* Attendance Analytics Matrix (8 Cols) */}
-                <div className="lg:col-span-8 bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm overflow-hidden relative group">
-                    <div className="flex items-center justify-between mb-12">
+                <div className="lg:col-span-8 bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-slate-100 shadow-sm overflow-hidden relative group">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                         <div>
                             <h3 className="text-xl font-black text-slate-900 tracking-tighter mb-1">Attendance Analytics Matrix</h3>
                             <p className="text-[10px] uppercase font-black tracking-widest text-[#0052a5]">Real-time Academic Synchronicity</p>
@@ -83,21 +83,21 @@ export default function Dashboard() {
                         </Link>
                     </div>
 
-                    <div className="flex items-end justify-between gap-8 h-[240px] mb-8 pr-4 px-2">
+                    <div className="flex items-end justify-between gap-4 md:gap-8 h-[200px] md:h-[240px] mb-8 md:pr-4 px-2">
                         {SUBJECTS.map((subject, i) => (
                             <div key={i} className="flex-1 flex flex-col justify-end items-center h-full group/bar relative">
                                 <motion.div 
                                     initial={{ height: 0 }}
                                     animate={{ height: `${subject.percentage}%` }}
                                     transition={{ delay: 0.5 + (i * 0.1), duration: 1, ease: [0.33, 1, 0.68, 1] }}
-                                    className={`w-full ${subject.color} rounded-t-[20px] relative shadow-lg shadow-slate-200/50`}
+                                    className={`w-full ${subject.color} rounded-t-[12px] md:rounded-t-[20px] relative shadow-lg shadow-slate-200/50`}
                                 >
                                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-black py-2 px-3 rounded-xl opacity-0 group-hover/bar:opacity-100 transition-all pointer-events-none scale-90 group-hover/bar:scale-100 shadow-2xl z-20 whitespace-nowrap">
                                         {subject.percentage}% SYNCED
                                     </div>
                                 </motion.div>
                                 <div className="mt-4 text-center">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-900">{subject.name}</p>
+                                    <p className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-900 line-clamp-1">{subject.name}</p>
                                 </div>
                             </div>
                         ))}
@@ -108,7 +108,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Recent Activity Sync (4 Cols) */}
-                <div className="lg:col-span-4 bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm">
+                <div className="lg:col-span-4 bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-slate-100 shadow-sm">
                     <div className="flex items-center justify-between mb-10">
                         <h3 className="text-xl font-black text-slate-900 tracking-tighter">Activity Sync</h3>
                         <Activity size={20} className="text-[#0052a5]" />
@@ -163,17 +163,17 @@ export default function Dashboard() {
             </div>
 
             {/* Bottom Alert Strip */}
-            <div className="bg-[#0052a5] text-white p-8 rounded-[40px] flex items-center justify-between shadow-2xl shadow-blue-900/40 relative overflow-hidden group border border-blue-400/20">
-                <div className="flex items-center gap-6 relative z-10">
-                    <div className="w-16 h-16 bg-white/10 rounded-3xl flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-                        <Info size={32} />
+            <div className="bg-[#0052a5] text-white p-6 md:p-8 rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-2xl shadow-blue-900/40 relative overflow-hidden group border border-blue-400/20">
+                <div className="flex flex-col md:flex-row md:items-center gap-6 relative z-10">
+                    <div className="w-14 md:w-16 h-14 md:h-16 bg-white/10 rounded-2xl md:rounded-3xl flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+                        <Info size={28} />
                     </div>
                     <div>
-                        <h4 className="text-xl font-black tracking-tighter leading-none mb-2 capitalize">Secure Lab Access Optimized</h4>
-                        <p className="text-white/60 text-sm font-medium">Your hardware fingerprint is actively anchoring this login node. Handshake confirmed.</p>
+                        <h4 className="text-lg md:text-xl font-black tracking-tighter leading-none mb-2 capitalize">Secure Lab Access Optimized</h4>
+                        <p className="text-white/60 text-xs md:text-sm font-medium leading-relaxed max-w-sm">Your hardware fingerprint is actively anchoring this login node. Handshake confirmed.</p>
                     </div>
                 </div>
-                <div className="bg-white/20 px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-widest backdrop-blur-md relative z-10 border border-white/10">
+                <div className="bg-white/20 px-6 md:px-8 py-3 rounded-full text-[10px] md:text-[12px] font-black uppercase tracking-widest backdrop-blur-md relative z-10 border border-white/10 text-center">
                     Symmetrically Encrypted
                 </div>
                 
