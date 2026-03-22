@@ -138,7 +138,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex w-full max-w-[100vw] overflow-x-hidden relative">
+    <div className="flex flex-col h-[100dvh] overflow-hidden w-full bg-[#f8fafc]">
       <AnimatePresence>
         {sessionError && (
           <motion.div 
@@ -161,8 +161,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         )}
       </AnimatePresence>
 
-      {/* 0. Mobile Command Header (Visible ONLY on Mobile/Tablet) */}
-      <div className="xl:hidden fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-6 flex items-center justify-between z-[50]">
+      {/* 0. Mobile Command Header (Top Nav for Mobile) */}
+      <div className="xl:hidden h-16 bg-white border-b border-slate-100 px-6 flex items-center justify-between flex-shrink-0 z-50 shadow-sm relative">
           <div className="flex items-center gap-3">
              <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 cursor-pointer active:scale-95 transition-all">
                 {mobileMenuOpen ? "✕" : "☰"}
@@ -189,117 +189,124 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           </div>
       </div>
 
-      {/* 1. Sidebar - Institutional Navigation Node */}
-      <aside 
-        className={`fixed top-0 left-0 h-screen w-80 bg-white border-r border-slate-100 p-8 flex flex-col z-[60] transition-transform duration-500 ease-in-out xl:translate-x-0 ${
-          mobileMenuOpen ? "translate-x-0 shadow-2xl shadow-blue-900/40" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between xl:justify-start gap-4 mb-16 pl-4">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-[#0052a5] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/10">
-              <Activity size={24} strokeWidth={3} />
-            </div>
-            <div>
-              <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-1">PRISM</h1>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Institutional Matrix</p>
-            </div>
-          </div>
-          <button onClick={() => setMobileMenuOpen(false)} className="xl:hidden w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">✕</button>
-        </div>
-
-        <nav className="flex-1" onClick={() => setMobileMenuOpen(false)}>
-          <SidebarLink href="/student" icon={LayoutDashboard} label="Dashboard" active={pathname === "/student"} />
-          <SidebarLink href="/student/labs" icon={FlaskConical} label="Labs" active={pathname === "/student/labs"} />
-          <SidebarLink href="/student/attendance" icon={CalendarCheck} label="Attendance" active={pathname === "/student/attendance"} />
-          <SidebarLink href="/student/equipment" icon={Monitor} label="Equipment" active={pathname === "/student/equipment"} />
-          <SidebarLink href="/student/analytics" icon={ChartColumn} label="Analytics" active={pathname === "/student/analytics"} />
-        </nav>
-
-        <div className="pt-8 border-t border-slate-50">
-          <button 
-            onClick={async () => {
-              if (tempSessionId) {
-                await supabase.from('sessions').update({ is_active: false }).eq('temp_session_id', tempSessionId);
-              }
-              clearSession();
-              await supabase.auth.signOut();
-              router.push("/login");
-            }}
-            className="w-full flex items-center gap-4 px-6 py-4 text-slate-400 hover:text-rose-500 transition-colors uppercase font-black text-[10px] tracking-widest"
-          >
-            <LogOut size={20} /> Sign Out Node
-          </button>
-        </div>
-      </aside>
-
-      {/* 2. Main Content Board */}
-      <main className="flex-1 min-w-0 w-full xl:ml-80 min-h-screen pt-16 xl:pt-0 flex flex-col overflow-x-hidden">
-        {/* Top Navbar (Visible ONLY on Desktop Devices) */}
-        <header className="hidden h-28 bg-white/60 backdrop-blur-xl border-b border-slate-100 xl:flex items-center justify-between px-12 sticky top-0 z-30">
-          <div className="max-w-md w-full relative">
-            <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-300">
-              <Search size={18} />
-            </div>
-            <input 
-              type="text" 
-              placeholder="Query the Matrix..." 
-              className="w-full bg-slate-100/50 border-none rounded-[20px] py-4 pl-16 pr-8 text-[12px] font-bold focus:ring-2 focus:ring-blue-100 transition-all placeholder:text-slate-400"
+      <div className="flex flex-1 overflow-hidden relative w-full">
+        {/* Overlay for Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 xl:hidden"
             />
-          </div>
+          )}
+        </AnimatePresence>
 
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-3 pr-8 border-r border-slate-100">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-              <span className="text-[10px] uppercase font-black tracking-widest text-slate-400">Node Secure</span>
+        {/* 1. Sidebar - Institutional Navigation Node */}
+        <aside 
+          className={`fixed xl:relative top-0 left-0 bottom-0 h-full w-80 bg-white border-r border-[#f1f5f9] flex flex-col z-50 transition-transform duration-300 xl:translate-x-0 ${
+            mobileMenuOpen ? "translate-x-0 shadow-2xl shadow-blue-900/40" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex-1 overflow-y-auto px-4 py-8 space-y-12">
+            <div className="flex items-center justify-between xl:justify-start gap-4 mb-4 pl-4 xl:pl-0">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-[#0052a5] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/10">
+                  <Activity size={24} strokeWidth={3} />
+                </div>
+                <div>
+                  <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none mb-1">PRISM</h1>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Institutional</p>
+                </div>
+              </div>
+              <button onClick={() => setMobileMenuOpen(false)} className="xl:hidden w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">✕</button>
             </div>
 
-            <Link href="/student/notifications">
-              <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#0052a5] hover:shadow-xl hover:shadow-blue-500/5 transition-all cursor-pointer relative group">
-                <Bell size={20} />
-                <div className="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></div>
-              </div>
-            </Link>
-
-            <Link href="/student/profile">
-              <div className="flex items-center gap-4 bg-slate-50 px-5 py-3 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all cursor-pointer group/prof">
-                <div className="text-right">
-                  <p className="text-[11px] font-black text-slate-900 leading-none mb-1 group-hover/prof:text-[#0052a5] transition-colors">{profile?.full_name || "Authorized Student"}</p>
-                  <p className="text-[9px] font-bold text-[#0052a5] uppercase tracking-widest leading-none">{profile?.department || "CSE / IoT"}</p>
-                </div>
-                <div className="w-10 h-10 rounded-2xl bg-[#0052a5] text-white flex items-center justify-center group-hover/prof:scale-105 transition-transform">
-                  <CircleUser size={28} strokeWidth={1.5} />
-                </div>
-              </div>
-            </Link>
+            <nav className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+              <SidebarLink href="/student" icon={LayoutDashboard} label="Dashboard" active={pathname === "/student"} />
+              <SidebarLink href="/student/labs" icon={FlaskConical} label="Labs" active={pathname === "/student/labs"} />
+              <SidebarLink href="/student/attendance" icon={CalendarCheck} label="Attendance" active={pathname === "/student/attendance"} />
+              <SidebarLink href="/student/equipment" icon={Monitor} label="Equipment" active={pathname === "/student/equipment"} />
+              <SidebarLink href="/student/analytics" icon={ChartColumn} label="Analytics" active={pathname === "/student/analytics"} />
+            </nav>
           </div>
-        </header>
 
-        {/* Page Children with Staggered Entry */}
-        <div className="p-4 md:p-12 max-w-7xl mx-auto w-full min-w-0 overflow-x-hidden">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            {children}
-          </motion.div>
-        </div>
-      </main>
+          <div className="p-6 space-y-4 bg-slate-50/50">
+            <button 
+              onClick={async () => {
+                if (tempSessionId) {
+                  await supabase.from('sessions').update({ is_active: false }).eq('temp_session_id', tempSessionId);
+                }
+                clearSession();
+                await supabase.auth.signOut();
+                router.push("/login");
+              }}
+              className="flex items-center gap-4 px-6 py-4 w-full bg-white border border-slate-100 hover:border-rose-100 hover:text-rose-600 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all shadow-sm active:scale-95"
+            >
+              <LogOut size={18} /> Sign Out Node
+            </button>
+          </div>
+        </aside>
 
-      {/* Overlay for Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 xl:hidden"
-          />
-        )}
-      </AnimatePresence>
+        {/* 2. Main Content Board */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar bg-[#f8fafc] w-full min-w-0 relative flex flex-col">
+          {/* Top Navbar (Visible ONLY on Desktop Devices) */}
+          <header className="hidden xl:flex h-28 bg-white/60 backdrop-blur-xl border-b border-slate-100 flex-shrink-0 items-center justify-between px-12 sticky top-0 z-30">
+            <div className="max-w-md w-full relative">
+              <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-300">
+                <Search size={18} />
+              </div>
+              <input 
+                type="text" 
+                placeholder="Query the Matrix..." 
+                className="w-full bg-slate-100/50 border-none rounded-[20px] py-4 pl-16 pr-8 text-[12px] font-bold focus:ring-2 focus:ring-blue-100 transition-all placeholder:text-slate-400"
+              />
+            </div>
+
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-3 pr-8 border-r border-slate-100">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-[10px] uppercase font-black tracking-widest text-slate-400">Node Secure</span>
+              </div>
+
+              <Link href="/student/notifications">
+                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#0052a5] hover:shadow-xl hover:shadow-blue-500/5 transition-all cursor-pointer relative group">
+                  <Bell size={20} />
+                  <div className="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></div>
+                </div>
+              </Link>
+
+              <Link href="/student/profile">
+                <div className="flex items-center gap-4 bg-slate-50 px-5 py-3 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all cursor-pointer group/prof">
+                  <div className="text-right">
+                    <p className="text-[11px] font-black text-slate-900 leading-none mb-1 group-hover/prof:text-[#0052a5] transition-colors">{profile?.full_name || "Authorized Student"}</p>
+                    <p className="text-[9px] font-bold text-[#0052a5] uppercase tracking-widest leading-none">{profile?.department || "CSE / IoT"}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#0052a5] text-white flex items-center justify-center group-hover/prof:scale-105 transition-transform">
+                    <CircleUser size={28} strokeWidth={1.5} />
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </header>
+
+          {/* Page Children with Staggered Entry */}
+          <div className="p-4 md:p-12 pb-32 max-w-[1600px] mx-auto w-full min-w-0 flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={pathname}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
