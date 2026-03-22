@@ -46,7 +46,7 @@ interface ActiveSession {
 export default function AttendancePage() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { tempSessionId, fingerprintHash } = useSecurity();
+    const { tempSessionId, fingerprintHash, hardwareMismatch } = useSecurity();
     
     const [isTestMode, setIsTestMode] = useState(false);
     
@@ -115,6 +115,15 @@ export default function AttendancePage() {
     // 2. Hardware Beacon Handshake - Physical Presence Verification
     const startBeaconSearch = async () => {
         if (!selectedLab) return;
+
+        // 🛡️ Browser Compatibility Guard
+        const isBluetoothSupported = typeof navigator !== 'undefined' && 'bluetooth' in navigator;
+        
+        if (!isBluetoothSupported && !isTestMode) {
+            setErrorMessage("Web Bluetooth is not supported on this browser. Please use Google Chrome, Microsoft Edge, or Samsung Internet.");
+            return;
+        }
+
         setStatus('SEARCHING_BEACON');
         setErrorMessage(null);
 
@@ -181,25 +190,31 @@ export default function AttendancePage() {
         let scanner: Html5QrcodeScanner | null = null;
         
         if (status === 'SCANNING_QR') {
-            // Delay ensures DOM element is fully manifested after animation mount
             const mountPointTimer = setTimeout(() => {
                 const container = document.getElementById("attendance-reader");
                 if (!container) return;
 
+                // Manifest scanner with High-Fidelity scanning configuration
                 scanner = new Html5QrcodeScanner("attendance-reader", {
-                    fps: 10,
-                    qrbox: { width: 250, height: 250 },
-                    rememberLastUsedCamera: true
+                    fps: 20, // Increased for smoother tracking
+                    qrbox: { width: 280, height: 280 },
+                    rememberLastUsedCamera: true,
+                    aspectRatio: 1.0
                 }, false);
 
-                scanner.render(onScanSuccess, onScanError);
+                scanner.render(onScanSuccess, (err) => {
+                    // Logic to handle silent permission denial or camera timeouts
+                    if (err?.includes("NotAllowedError") || err?.includes("Permission denied")) {
+                        setErrorMessage("Camera Access Denied. Please enable permissions in browser settings or use 'Analyze Signature File'.");
+                    }
+                });
                 scannerRef.current = scanner;
             }, 100);
 
             return () => {
                 clearTimeout(mountPointTimer);
                 if (scannerRef.current) {
-                    scannerRef.current.clear().catch(e => console.error(e));
+                    scannerRef.current.clear().catch(e => console.error("Scanner Clean-up Failure:", e));
                     scannerRef.current = null;
                 }
             };
@@ -317,6 +332,52 @@ export default function AttendancePage() {
         });
         onScanSuccess(testData);
     };
+
+    if (hardwareMismatch) {
+        return (
+            <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-6 -mb-20">
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="w-full max-w-xl bg-white rounded-[50px] shadow-2xl border-4 border-red-50 p-16 text-center relative overflow-hidden"
+                >
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-red-500"></div>
+                    
+                    <div className="bg-red-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-10">
+                        <ShieldCheck size={48} className="text-red-500" strokeWidth={2.5} />
+                    </div>
+                    
+                    <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-4">Institutional Presence Violation</h2>
+                    <p className="text-[11px] font-black uppercase tracking-[0.3em] text-red-500 mb-8 underline decoration-2 underline-offset-8">Unauthorized Hardware Signature Detected</p>
+                    
+                    <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 mb-10 text-left">
+                        <p className="text-sm font-medium text-slate-600 leading-relaxed mb-4">
+                            Your academic identity is securely bound to a **Verified Laboratory Device**. The hardware fingerprint of this machine does not match your registered anchor.
+                        </p>
+                        <ul className="space-y-3">
+                            <li className="flex items-center gap-3 text-[11px] font-bold text-slate-400">
+                                <TriangleAlert size={14} className="text-amber-500" /> PROXY ATTENDANCE PREVENTED
+                            </li>
+                            <li className="flex items-center gap-3 text-[11px] font-bold text-slate-400">
+                                <TriangleAlert size={14} className="text-amber-500" /> SINGLE DEVICE LOCK ACTIVE
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p className="text-xs font-bold text-slate-400 mb-10">
+                        Please return to your **Original Verified Device** to perform attendance handshake. Contact Laboratory Faculty for hardware reset authorization if your device was lost.
+                    </p>
+                    
+                    <button 
+                        onClick={() => router.push('/')}
+                        className="px-10 py-5 bg-slate-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200"
+                    >
+                        Abort Protocol
+                    </button>
+                </motion.div>
+            </div>
+        );
+    }
 
     if (loading) {
         return (
