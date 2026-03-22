@@ -2,7 +2,7 @@
  * 🛰️ Institutional Service Worker: Offline Presence Node
  * Minimal PWA support - NO CACHING. Network-first always.
  */
-const CACHE_VERSION = 'lab-intel-v3-nocache';
+const CACHE_VERSION = 'lab-intel-v4-nocache';
 
 self.addEventListener('install', (event) => {
   // Immediately activate - don't wait for old tabs

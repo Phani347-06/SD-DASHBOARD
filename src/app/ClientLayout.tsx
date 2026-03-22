@@ -5,32 +5,35 @@ import { SecurityProvider } from '@/context/SecurityContext';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    // Force Refresh Protocol: Unregister any legacy service workers to purge stale PWA code
     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for(let registration of registrations) {
+          registration.unregister();
+        }
+      });
+
       if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
-        // Register SW and force update check
-        navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+        // Register SW with a versioned hash to bypass ALL caches
+        navigator.serviceWorker.register('/sw.js?v=4', { updateViaCache: 'none' })
           .then((registration) => {
-            // Force check for updates immediately
             registration.update();
-            
-            // When a new SW is found, make it activate immediately
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
               if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'activated') {
-                    // Reload the page to get fresh content
+                  if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
                     window.location.reload();
                   }
                 });
               }
             });
-          })
-          .catch(err => {
-            console.warn('SW registration failed:', err);
           });
       }
     }
+    
+    // Identity Pulse Buffer: Clear stale redirects
+    localStorage.removeItem('redirect_after_login');
   }, []);
 
   return (

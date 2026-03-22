@@ -101,11 +101,13 @@ export default function DashboardLayout({
     }
 
     let { data: faculty } = await supabase.from('faculty').select('*').eq('id', user.id).single();
-    if (!faculty && user.email) {
-       const { data: whitelisted } = await supabase.from('faculty').select('*').eq('email', user.email).single();
-       if (whitelisted) {
-          await supabase.from('faculty').update({ id: user.id }).eq('email', user.email);
-          faculty = whitelisted;
+    
+    // Auto-Redirect Pulse: If identity manifest exists in student registry, redirect to student hub
+    if (!faculty) {
+       const { data: st } = await supabase.from('students').select('*').eq('id', user.id).single();
+       if (st) {
+          router.push('/student');
+          return;
        }
     }
 
@@ -113,12 +115,15 @@ export default function DashboardLayout({
       setProfile({ name: faculty.full_name, dept: faculty.department, role: 'Faculty Lead', email: user.email || '', avatar_url: faculty.avatar_url });
       setEditName(faculty.full_name);
       setEditEmail(user.email || '');
-    } else {
-       const { data: st } = await supabase.from('students').select('*').eq('id', user.id).single();
-       if (st) {
-          setProfile({ name: st.full_name, dept: st.department, role: 'Researcher', email: user.email || '', avatar_url: st.avatar_url });
-          setEditName(st.full_name);
+    } else if (user.email) {
+       const { data: whitelisted } = await supabase.from('faculty').select('*').eq('email', user.email).single();
+       if (whitelisted) {
+          await supabase.from('faculty').update({ id: user.id }).eq('email', user.email);
+          setProfile({ name: whitelisted.full_name, dept: whitelisted.department, role: 'Faculty Lead', email: user.email || '', avatar_url: whitelisted.avatar_url });
+          setEditName(whitelisted.full_name);
           setEditEmail(user.email || '');
+       } else {
+          router.push('/login');
        }
     }
   };
@@ -421,12 +426,12 @@ export default function DashboardLayout({
                       initial={{ opacity: 0, y: 15, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-[70px] right-0 w-[420px] bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[60] p-2"
+                      className="absolute top-[70px] right-[-80px] md:right-0 w-[90vw] max-w-[420px] bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[60] p-2"
                     >
                        <div className="p-6 pb-2 border-b border-slate-50 flex justify-between items-center">
                           <div>
-                             <h4 className="font-black text-slate-900 uppercase tracking-tight text-lg leading-none mb-1">Telemetry Alerts</h4>
-                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Security Handshakes</p>
+                             <h4 className="font-black text-slate-900 uppercase tracking-tight text-base md:text-lg leading-none mb-1">Telemetry Alerts</h4>
+                             <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Security Handshakes</p>
                           </div>
                        </div>
                        <div className="max-h-[300px] overflow-y-auto custom-scrollbar-light p-2">

@@ -60,6 +60,15 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
           .eq('id', user.id)
           .single();
         
+        // Auto-Redirect Pulse: If identity manifest exists in faculty registry, redirect to faculty hub
+        if (!student) {
+           const { data: faculty } = await supabase.from('faculty').select('*').eq('id', user.id).single();
+           if (faculty) {
+              router.push('/attendance');
+              return;
+           }
+        }
+
         setProfile(student);
         setLoading(false);
 
