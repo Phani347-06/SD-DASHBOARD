@@ -175,23 +175,24 @@ export default function LabsPage() {
     <div className="space-y-8 animate-in fade-in duration-700">
       
       {/* Page Header */}
-      <div className="flex justify-between items-end">
+      {/* 1. Page Header with Glass Control Bar */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white/50 backdrop-blur-xl p-6 md:p-8 rounded-2xl md:rounded-[32px] border border-white/50 shadow-sm sticky top-0 z-20 mx-1 md:mx-0">
         <div>
-           <div className="flex items-center gap-3 mb-2">
-              <div className="bg-[#0052a5] p-2 rounded-lg shadow-sm">
-                 <FlaskConical size={20} className="text-white" />
-              </div>
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">Command Center: Labs</h1>
-           </div>
-           <p className="text-[13px] font-bold text-slate-500 uppercase tracking-widest pl-11">Initialize & Synchronize Laboratory Ecosystems</p>
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-none mb-2 uppercase">Laboratory Roster</h1>
+          <p className="text-[11px] md:text-[13px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+             <div className="w-1.5 h-1.5 rounded-full bg-[#0052a5] animate-pulse"></div>
+             Node Infrastructure: <span className="text-[#0052a5]">VNR Vignana Jyothi</span>
+          </p>
         </div>
-        <button 
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-6 py-3.5 bg-[#0052a5] hover:bg-[#00438a] text-white rounded-2xl text-[12px] font-extrabold uppercase tracking-widest shadow-lg shadow-blue-900/10 transition-all active:scale-95 group"
-        >
-          <Plus size={18} className="group-hover:rotate-90 transition-transform" />
-          Initialize New Lab
-        </button>
+        <div className="flex w-full md:w-auto items-center gap-3">
+           <button 
+             onClick={() => setShowCreateModal(true)}
+             className="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-4 bg-[#0052a5] hover:bg-[#00438a] text-white rounded-xl md:rounded-2xl text-[11px] md:text-[12px] font-extrabold uppercase tracking-widest shadow-lg shadow-blue-900/10 transition-all active:scale-95 group"
+           >
+             <PlusCircle size={16} md-size={18} className="group-hover:rotate-90 transition-transform" />
+             Create Lab Node
+           </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-12 gap-8 items-start">

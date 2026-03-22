@@ -165,27 +165,27 @@ export default function InventoryPage() {
     <div className="space-y-8 animate-in fade-in duration-700 pb-20 relative">
       
       {/* 1. Page Header with Glass Control Bar */}
-      <div className="flex justify-between items-end bg-white/50 backdrop-blur-xl p-6 rounded-[32px] border border-white/50 shadow-sm border-b border-white sticky top-0 z-20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/50 backdrop-blur-xl p-6 md:p-8 rounded-2xl md:rounded-[32px] border border-white/50 shadow-sm sticky top-0 z-20 mx-2 md:mx-0">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none mb-2">Institutional Inventory</h1>
-          <p className="text-[13px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-none mb-2 uppercase">Institutional Inventory</h1>
+          <p className="text-[11px] md:text-[13px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-             Active Laboratory Node: <span className="text-[#0052a5]">Matrix R&D North</span>
+             Node: <span className="text-[#0052a5]">Matrix R&D North</span>
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
            <button 
              onClick={() => setShowSimulator(!showSimulator)} 
-             className={`flex items-center gap-2 px-5 py-3 rounded-2xl border text-[11px] font-black uppercase tracking-widest transition-all ${
+             className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-xl md:rounded-2xl border text-[10px] md:text-[11px] font-black uppercase tracking-widest transition-all ${
                showSimulator ? 'bg-amber-500 text-white border-amber-600 shadow-lg' : 'bg-white text-slate-600 border-slate-100 hover:bg-slate-50 shadow-sm'
              }`}>
-              <Cpu size={16} /> Hardware Terminal
+              <Cpu size={14} md-size={16} /> Hardware Terminal
            </button>
            <button 
              onClick={() => setShowAddDrawer(true)}
-             className="flex items-center gap-2 px-6 py-3.5 bg-[#0052a5] hover:bg-[#00438a] text-white rounded-2xl text-[12px] font-extrabold uppercase tracking-widest shadow-lg shadow-blue-900/10 transition-all active:scale-95 group"
+             className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0052a5] hover:bg-[#00438a] text-white rounded-xl md:rounded-2xl text-[11px] md:text-[12px] font-extrabold uppercase tracking-widest shadow-lg shadow-blue-900/10 transition-all active:scale-95 group"
            >
-             <Plus size={18} className="group-hover:rotate-90 transition-transform" />
+             <Plus size={16} md-size={18} className="group-hover:rotate-90 transition-transform" />
              Initialize Asset
            </button>
         </div>
@@ -224,20 +224,20 @@ export default function InventoryPage() {
       </motion.div>
 
       {/* 3. Main Data Core */}
-      <div className="grid grid-cols-12 gap-8">
-         <div className="col-span-12 lg:col-span-8 bg-white rounded-[40px] p-1 p-b-10 border border-slate-100 shadow-sm relative overflow-hidden flex flex-col min-h-[600px]">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-10 pt-10 pb-8 border-b border-slate-50">
+      <div className="grid grid-cols-12 gap-6 md:gap-8">
+         <div className="col-span-12 lg:col-span-8 bg-white rounded-3xl md:rounded-[40px] border border-slate-100 shadow-sm relative overflow-hidden flex flex-col min-h-[500px] md:min-h-[600px]">
+            <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 px-6 md:px-10 pt-8 md:pt-10 pb-8 border-b border-slate-50">
                <div>
-                  <h4 className="text-2xl font-black text-slate-900 tracking-tight">Vanguard Inventory Matrix</h4>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">Institutional Real-time Telemetry Oversight</p>
+                  <h4 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight uppercase">Inventory Matrix</h4>
+                  <p className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time Telemetry Oversight</p>
                </div>
                
-               <div className="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-                  {["All", "IN LAB", "USING", "MISSING"].map((status) => (
+               <div className="flex flex-wrap bg-slate-50 p-1 rounded-xl md:rounded-2xl border border-slate-100">
+                  {["All", "IN LAB", "USING"].map((status) => (
                      <button
                         key={status}
                         onClick={() => setFilterStatus(status)}
-                        className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === status ? "bg-[#0052a5] text-white shadow-lg shadow-blue-500/20" : "text-slate-400 hover:text-slate-700"}`}
+                        className={`px-4 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all ${filterStatus === status ? "bg-[#0052a5] text-white shadow-lg" : "text-slate-400 hover:text-slate-700"}`}
                      >
                         {status}
                      </button>
@@ -245,12 +245,12 @@ export default function InventoryPage() {
                </div>
             </div>
 
-            <div className="overflow-x-auto px-4">
-               <table className="w-full text-left">
+            <div className="overflow-x-auto px-2 md:px-4 custom-scrollbar">
+               <table className="w-full text-left min-w-[700px]">
                   <thead>
                      <tr className="border-b border-slate-50/50">
                         <th className="px-6 py-6 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Institutional Unit</th>
-                        <th className="px-6 py-6 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
+                        <th className="px-6 py-6 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Status Check</th>
                         <th className="px-6 py-6 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Roster Anchor</th>
                         <th className="px-6 py-6 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
                      </tr>
@@ -342,11 +342,11 @@ export default function InventoryPage() {
          </div>
 
          {/* 4. RFID Activity Ticker with Custom Scroll */}
-         <div className="col-span-12 lg:col-span-4 space-y-8">
-            <div className="bg-[#0052a5] rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20">
+         <div className="col-span-12 lg:col-span-4 space-y-6 md:space-y-8">
+            <div className="bg-[#0052a5] rounded-3xl md:rounded-[40px] p-6 md:p-8 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20">
                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-8">
+                  <div className="flex items-center gap-3 mb-6 md:mb-8">
                      <div className="w-10 h-10 rounded-2xl bg-white/15 flex items-center justify-center text-blue-100 ring-1 ring-white/20">
                         <Zap size={20} fill="currentColor" />
                      </div>

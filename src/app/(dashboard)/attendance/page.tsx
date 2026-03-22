@@ -261,24 +261,24 @@ export default function AttendancePage() {
       )}
 
       {/* Header Area */}
-      <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-6">
-        <div>
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between mb-6 md:mb-8 gap-6 px-4 md:px-0">
+        <div className="space-y-2">
           <div className="flex items-center gap-3 mb-2">
-            <span className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full border ${session ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
+            <span className={`flex items-center gap-1.5 px-3 py-1 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full border ${session ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${session ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
-              {session ? 'Node Manifested' : 'System Standby'}
+              {session ? 'Manifested' : 'Standby'}
             </span>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{session ? `Uptime ${elapsed}` : 'Awaiting initialization'}</span>
+            <span className="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-widest">{session ? `Uptime ${elapsed}` : 'Awaiting initialization'}</span>
           </div>
-          <h1 className="text-[40px] font-black text-slate-900 tracking-tighter leading-none font-display mb-4">
-            Command Center:<br />
+          <h1 className="text-3xl md:text-[40px] font-black text-slate-900 tracking-tighter leading-tight md:leading-none font-display">
             {session ? session.labs?.name : (
-                <div className="flex items-center gap-4 mt-2">
+                <div className="flex flex-col gap-4 mt-2">
+                    <p className="text-xl md:text-3xl font-black text-slate-400 uppercase">Command Center</p>
                     <select 
                         disabled={!!session}
                         value={selectedLabId}
                         onChange={(e) => setSelectedLabId(e.target.value)}
-                        className="bg-white border border-slate-200 rounded-2xl px-6 py-3 text-[16px] font-black tracking-tight text-[#0052a5] focus:outline-none focus:ring-4 focus:ring-blue-500/10 min-w-[300px]"
+                        className="bg-white border border-slate-200 rounded-2xl px-5 py-3 text-[14px] md:text-[16px] font-black tracking-tight text-[#0052a5] focus:outline-none focus:ring-4 focus:ring-blue-500/10 w-full md:min-w-[300px]"
                     >
                         <option value="">Select Laboratory Node</option>
                         {facultyLabs.map(lab => (
@@ -308,14 +308,14 @@ export default function AttendancePage() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
         
         {/* Left Column - QR Protocol */}
-        <div className="md:col-span-4 lg:col-span-3 space-y-6">
-          <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col items-center group relative overflow-hidden">
+        <div className="md:col-span-4 lg:col-span-3 space-y-6 px-4 md:px-0">
+          <div className="bg-white rounded-[40px] p-6 md:p-10 shadow-sm border border-slate-100 flex flex-col items-center group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full blur-[60px] -mr-16 -mt-16 pointer-events-none group-hover:bg-blue-50 transition-colors" />
             
-            <h3 className="text-[11px] font-black text-slate-300 uppercase tracking-[0.3em] mb-10 w-full text-center relative z-10">Attendance Access Portal</h3>
+            <h3 className="text-[10px] md:text-[11px] font-black text-slate-300 uppercase tracking-[0.3em] mb-8 md:mb-10 w-full text-center relative z-10">Access Portal</h3>
             
-            <div className="w-56 h-56 bg-white border border-slate-100 rounded-[40px] mb-10 flex items-center justify-center p-6 shadow-2xl shadow-blue-900/5 relative z-10 group-hover:scale-105 transition-transform duration-500">
-               <div className="w-full h-full bg-slate-50 rounded-[30px] flex items-center justify-center flex-col p-4 relative overflow-hidden border border-slate-100">
+            <div className="w-48 h-48 md:w-56 md:h-56 bg-white border border-slate-100 rounded-3xl md:rounded-[40px] mb-8 md:mb-10 flex items-center justify-center p-4 md:p-6 shadow-2xl shadow-blue-900/5 relative z-10 group-hover:scale-105 transition-transform duration-500">
+               <div className="w-full h-full bg-slate-50 rounded-2xl md:rounded-[30px] flex items-center justify-center flex-col p-4 relative overflow-hidden border border-slate-100">
                   {session && tempSession ? (
                     tempSession.is_paused ? (
                        <div className="flex flex-col items-center animate-pulse">
@@ -395,37 +395,37 @@ export default function AttendancePage() {
         </div>
 
         {/* Right Column - Attendance Matrix */}
-        <div className="md:col-span-8 lg:col-span-9 bg-white rounded-[50px] shadow-sm border border-slate-100 overflow-hidden flex flex-col h-[800px] relative transition-all">
+        <div className="md:col-span-8 lg:col-span-9 bg-white rounded-3xl md:rounded-[50px] shadow-sm border border-slate-100 overflow-hidden flex flex-col md:h-[800px] relative transition-all mx-2 md:mx-0">
           
-          <div className="pt-12 px-12 pb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-50">
+          <div className="pt-8 md:pt-12 px-6 md:px-12 pb-6 md:pb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-50">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-3 font-display">Presence Matrix Ledger</h2>
-              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">Institutional Identity Synchronization Hub</p>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2 md:mb-3 font-display uppercase">Presence Ledger</h2>
+              <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">Institutional Identity Synchronization</p>
             </div>
-            <div className="flex gap-4">
-              <div className="relative group">
-                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0052a5] transition-colors" size={16} />
+            <div className="flex flex-wrap gap-4">
+              <div className="flex-1 md:flex-none relative group">
+                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0052a5] transition-colors" size={14} md-size={16} />
                  <input 
                     type="text" 
-                    placeholder="Filter nodes..." 
-                    className="bg-slate-50 border-none rounded-2xl py-3 pl-12 pr-6 text-[11px] font-black uppercase tracking-widest focus:ring-4 focus:ring-blue-100 transition-all w-64" 
+                    placeholder="Search..." 
+                    className="w-full bg-slate-50 border-none rounded-xl md:rounded-2xl py-2.5 md:py-3 pl-10 md:pl-12 pr-6 text-[10px] md:text-[11px] font-black uppercase tracking-widest focus:ring-4 focus:ring-blue-100 transition-all md:w-64" 
                  />
               </div>
-              <button className="bg-[#0052a5] p-3 rounded-2xl text-white shadow-xl shadow-blue-500/10 hover:rotate-6 transition-transform">
-                 <Download size={20} />
+              <button className="bg-[#0052a5] p-2.5 md:p-3 rounded-xl md:rounded-2xl text-white shadow-xl hover:rotate-6 transition-transform">
+                 <Download size={18} md-size={20} />
               </button>
             </div>
           </div>
 
-          <div className="flex-1 overflow-x-auto relative scrollbar-thin scrollbar-thumb-slate-100 scrollbar-track-transparent">
-            <table className="w-full text-left">
+          <div className="flex-1 overflow-x-auto relative custom-scrollbar">
+            <table className="w-full text-left min-w-[800px]">
               <thead className="bg-[#fcfdff] sticky top-0 z-10 border-b border-slate-50">
-                <tr className="text-[10px] font-black text-slate-300 uppercase tracking-[0.25em]">
-                  <th className="px-12 py-6">Institutional Roll</th>
-                  <th className="px-12 py-6">Identity Manifest</th>
-                  <th className="px-12 py-6">Handshake At</th>
-                  <th className="px-12 py-6">Security Node</th>
-                  <th className="px-12 py-6 pr-12 text-right">Integrity</th>
+                <tr className="text-[9px] md:text-[10px] font-black text-slate-300 uppercase tracking-[0.25em]">
+                  <th className="px-8 md:px-12 py-6">Institutional Roll</th>
+                  <th className="px-8 md:px-12 py-6">Manifest</th>
+                  <th className="px-8 md:px-12 py-6">Handshake</th>
+                  <th className="px-8 md:px-12 py-6">Security</th>
+                  <th className="px-8 md:px-12 py-6 pr-8 md:pr-12 text-right">Integrity</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50 text-[13px] font-medium text-slate-700">
