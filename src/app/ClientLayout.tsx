@@ -5,31 +5,30 @@ import { SecurityProvider } from '@/context/SecurityContext';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // Force Refresh Protocol: Unregister any legacy service workers to purge stale PWA code
+    // 🚀 SCORCHED EARTH CACHE BUSTING PROTOCOL 🚀
+    // Mobile browsers (especially iOS Safari / Android Chrome) aggressively cache PWAs.
+    // We are completely destroying all Service Workers and Caches to force an update.
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(registrations => {
         for(let registration of registrations) {
           registration.unregister();
         }
       });
+    }
 
-      if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
-        // Register SW with a versioned hash to bypass ALL caches
-        navigator.serviceWorker.register('/sw.js?v=4', { updateViaCache: 'none' })
-          .then((registration) => {
-            registration.update();
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (newWorker) {
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                    window.location.reload();
-                  }
-                });
-              }
-            });
-          });
-      }
+    if ('caches' in window) {
+      caches.keys().then((names) => {
+        for (let name of names) {
+          caches.delete(name);
+        }
+      });
+    }
+
+    // Force a hard reload ONE time to ensure the user gets off the cached version
+    const appVersion = 'v1.0.5'; // Change this string to force all mobile users to hard-refresh
+    if (localStorage.getItem('app_version') !== appVersion) {
+      localStorage.setItem('app_version', appVersion);
+      window.location.reload(); // Force hard refresh from network
     }
     
     // Identity Pulse Buffer: Clear stale redirects
